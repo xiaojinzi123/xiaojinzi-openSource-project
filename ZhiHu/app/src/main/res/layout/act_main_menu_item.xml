@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/big_padding"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_menu_item_name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textSize="@dimen/base_text_size"
+        android:gravity="center_vertical"
+        android:text="日报"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:layout_width="@dimen/base_icon_size"
+        android:layout_height="@dimen/base_icon_size"
+        android:visibility="gone"
+        android:src="@mipmap/menu_add"/>
+
+</LinearLayout>

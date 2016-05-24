@@ -1,0 +1,12 @@
+{
+"homeFragmentSkin":{"listBgColor":"#FFFFFF","listTagTextForeColor":"#888888","listTextForeColor":"#000000","titleBarBgColor":"#3F51B5","titleBarTextForeColor":"#FFFFFF","containerBgColor":"#FFFFFF"},
+"memuSkin":{"homeItemBgColor":"#F0F0F0","listBgColor":"#FFFFFF","listTextForeColor":"#000000","titleBarBgColor":"#3F51B5"},
+"themeFragmentSkin":{"listBgColor":"#FFFFFF","listTextForeColor":"#000000","titleBarBgColor":"#3F51B5","containerBgColor":"#FFFFFF"},
+"detailActSkin":{"titleBarBgColor":"#3F51B5","viewPagerBgColor":"#FFFFFF"},
+"detailFragmentSkin":{"webViewTextColor":"#000000","webViewBgColor":"#FFFFFF"},
+"commentActSkin":{"titleBarBgColor":"#3F51B5","containerBgColor":"#FFFFFF","listBgColor":"#FFFFFF","commentTextColor":"#000000"},
+"settingActSkin":{"titleBarBgColor":"#3F51B5","containerBgColor":"#FFFFFF","itemTagTextColor":"#39ADA3","itemTextColor":"#000000"},
+"mySkinActSkin":{"titleBarBgColor":"#3F51B5","containerBgColor":"#FFFFFF","listBgColor":"#FFFFFF","selectSkinItemBgColor":"#EAEAEA"},
+"onLineSkinActSkin":{"titleBarBgColor":"#3F51B5","containerBgColor":"#FFFFFF","viewPagerBgColor":"#FFFFFF"},
+"myCollectionActSkin":{"titleBarBgColor":"#3F51B5","containerBgColor":"#FFFFFF","itemTagTextColor":"#39ADA3","itemTextColor":"#000000"}
+}

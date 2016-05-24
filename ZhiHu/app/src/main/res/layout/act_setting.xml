@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sv_act_setting_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.cxj.zhihu.modular.setting.SettingActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rl_act_setting_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/base_blue"
+            android:padding="@dimen/big_padding">
+
+            <ImageView
+                android:id="@+id/iv_act_setting_back"
+                android:layout_width="@dimen/titlebar_icon_size"
+                android:layout_height="@dimen/titlebar_icon_size"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/arrow_left" />
+
+            <TextView
+                style="@style/base_tv_titlebar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="设置" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_act_setting_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_act_setting_titlebar"
+            android:orientation="vertical"
+            android:padding="@dimen/base_margin">
+
+            <TextView
+                android:id="@+id/tv_act_setting_routine"
+                style="@style/act_setting_tv_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="常规" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/base_margin">
+
+                <TextView
+                    android:id="@+id/tv_act_setting_str_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="无图模式"
+                    android:textSize="@dimen/base_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_act_setting_str_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_act_setting_str_one"
+                    android:text="2g/3g下不下载图片"
+                    android:textSize="@dimen/base_text_size" />
+
+                <CheckBox
+                    android:id="@+id/cb_act_setting_divider_load_image_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_act_setting_divider_one"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#2d2d2d" />
+
+            <TextView
+                android:id="@+id/tv_act_setting_skin"
+                style="@style/act_setting_tv_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="皮肤" />
+
+            <RelativeLayout
+                android:id="@+id/rl_act_setting_online_skin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/base_margin">
+
+                <TextView
+                    android:id="@+id/tv_act_setting_str_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="在线皮肤"
+                    android:textSize="@dimen/base_text_size" />
+
+                <ImageView
+                    android:id="@+id/iv_act_setting_online_skin"
+                    android:layout_width="@dimen/base_icon_size"
+                    android:layout_height="@dimen/base_icon_size"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/act_settting_arrow_right_day" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_act_setting_myskin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/base_margin">
+
+                <TextView
+                    android:id="@+id/tv_act_setting_str_four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的皮肤"
+                    android:textSize="@dimen/base_text_size" />
+
+                <ImageView
+                    android:id="@+id/iv_act_setting_my_skin"
+                    android:layout_width="@dimen/base_icon_size"
+                    android:layout_height="@dimen/base_icon_size"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/act_settting_arrow_right_day" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_act_setting_autochange_skin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/base_margin">
+
+                <TextView
+                    android:id="@+id/tv_act_setting_str_five"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="自动根据时间更换皮肤"
+                    android:textSize="@dimen/base_text_size" />
+
+                <Switch
+                    android:id="@+id/sw_act_setting_autochange_skin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_act_setting_divider_two"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#2d2d2d" />
+
+            <TextView
+                android:id="@+id/tv_act_setting_aboat_app"
+                style="@style/act_setting_tv_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="关于知乎" />
+
+            <RelativeLayout
+                android:id="@+id/rl_act_setting_aboat_app"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/base_margin">
+
+                <TextView
+                    android:id="@+id/tv_act_setting_str_six"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="版本号"
+                    android:textSize="@dimen/base_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_act_setting_app_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/base_text_size"
+                    android:text="1.1.1" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_act_setting_divider_three"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#2d2d2d" />
+
+            <TextView
+                android:id="@+id/tv_act_setting_aboat_author"
+                style="@style/act_setting_tv_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="关于作者" />
+
+            <RelativeLayout
+                android:id="@+id/rl_act_setting_aboat_author_qq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/base_margin">
+
+                <TextView
+                    android:id="@+id/tv_act_setting_str_serven"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="QQ"
+                    android:textSize="@dimen/base_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_act_setting_author_qq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/base_text_size"
+                    android:text="347837667" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_act_setting_aboat_author_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/base_margin"
+                android:textSize="@dimen/base_text_size">
+
+                <TextView
+                    android:id="@+id/tv_act_setting_str_eight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="邮箱"
+                    android:textSize="@dimen/base_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_act_setting_author_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/base_text_size"
+                    android:layout_alignParentRight="true"
+                    android:text="347837667@qq.com" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_act_setting_aboat_author_blog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/base_margin">
+
+                <TextView
+                    android:id="@+id/tv_act_setting_str_nine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="博客"
+                    android:textSize="@dimen/base_text_size" />
+
+                <ImageView
+                    android:id="@+id/iv_act_setting_author_blog"
+                    android:layout_width="@dimen/base_icon_size"
+                    android:layout_height="@dimen/base_icon_size"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/act_settting_arrow_right_day" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>

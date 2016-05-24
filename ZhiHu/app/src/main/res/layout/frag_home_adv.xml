@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--主页的fragment的listview上面显示轮番滚动的布局-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--显示轮番图-->
+    <xiaojinzi.view.advView.AdvView
+        android:id="@+id/vp_frag_home_adv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_frag_adv_height">
+    </xiaojinzi.view.advView.AdvView>
+
+    <TextView
+        android:id="@+id/tv_frag_home_adv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/home_frag_adv_text_size"
+        android:layout_margin="@dimen/bigger_margin"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:text="demodemo"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

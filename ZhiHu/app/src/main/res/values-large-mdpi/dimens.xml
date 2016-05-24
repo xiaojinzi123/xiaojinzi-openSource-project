@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--更大的外边距-->
+    <dimen name="bigger_margin">30dp</dimen>
+
+    <!--较大的外边距-->
+    <dimen name="big_margin">28dp</dimen>
+
+    <!--项目中基本的外边距-->
+    <dimen name="base_margin">22dp</dimen>
+
+    <!--项目中比基本内边距大一点-->
+    <dimen name="big_padding">24dp</dimen>
+
+    <!--项目中基本的内边距-->
+    <dimen name="base_padding">18dp</dimen>
+
+    <!--弹出菜单的imageView控件的大小-->
+    <dimen name="popup_menu_item_size">80dp</dimen>
+
+    <!--标题栏的图标的大小-->
+    <dimen name="titlebar_icon_size">52dp</dimen>
+
+    <!--再大一点的图片大小-->
+    <dimen name="bigger_icon_size">96dp</dimen>
+
+    <!--大一点的图片大小-->
+    <dimen name="big_icon_size">64dp</dimen>
+
+    <!--基本的图标的大小-->
+    <dimen name="base_icon_size">48dp</dimen>
+
+    <!--更大的字体-->
+    <dimen name="bigger_text_size">32dp</dimen>
+
+    <!--比基本的文字大小稍大一点-->
+    <dimen name="big_text_size">28dp</dimen>
+
+    <!--基本的文字大小-->
+    <dimen name="base_text_size">26sp</dimen>
+
+    <!--标题栏的文字的大小-->
+    <dimen name="titlebar_text_size">32sp</dimen>
+
+    <!--主页的广告控件的高度-->
+    <dimen name="home_frag_adv_height">500dp</dimen>
+
+    <!--广告控件中的文字大小-->
+    <dimen name="home_frag_adv_text_size">24dp</dimen>
+
+    <!--详情fragment中的上方的大图的高度-->
+    <dimen name="detail_frag_big_image_height">500dp</dimen>
+
+    <!--故事条目中的图片的大小-->
+    <dimen name="story_item_image_width">180dp</dimen>
+    <dimen name="story_item_image_height">150dp</dimen>
+
+</resources>

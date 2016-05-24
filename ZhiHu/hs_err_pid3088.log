@@ -1,0 +1,195 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ILLEGAL_INSTRUCTION (0xc000001d) at pc=0x009fc0c3, pid=3088, tid=2464
+#
+# JRE version:  (8.0_65-b17) (build )
+# Java VM: Java HotSpot(TM) Client VM (25.65-b01 mixed mode windows-x86 )
+# Problematic frame:
+# j  java.lang.Object.registerNatives()V+0
+#
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00889800):  JavaThread "Unknown thread" [_thread_in_native, id=2464, stack(0x00970000,0x009c0000)]
+
+siginfo: ExceptionCode=0xc000001d
+
+Registers:
+EAX=0x00000000, EBX=0x12c60bc0, ECX=0x00000000, EDX=0x0088a248
+ESP=0x009bfa78, EBP=0x009bfa98, ESI=0x12c60bc0, EDI=0x00889800
+EIP=0x009fc0c3, EFLAGS=0x00010246
+
+Top of Stack: (sp=0x009bfa78)
+0x009bfa78:   009bfa78 12c60bc0 009bfaa4 12cde540
+0x009bfa88:   00000000 12c60bc0 00000000 009bfaa8
+0x009bfa98:   009bfac8 009f43b4 02c005e8 009f8a99
+0x009bfaa8:   009bfaa8 12c610d8 009bfacc 12cde540
+0x009bfab8:   00000000 12c610e8 009bfaa8 009bfad0
+0x009bfac8:   009bfae8 009f0697 6d3b8452 00889800
+0x009bfad8:   00001f80 009bfc08 00889800 009f0632
+0x009bfae8:   009bfb70 6d3b8985 009bfb1c 009bfc08 
+
+Instructions: (pc=0x009fc0c3)
+0x009fc0a3:   38 01 00 00 c7 87 34 01 00 00 a1 c0 9f 00 89 a7
+0x009fc0b3:   30 01 00 00 c7 87 7c 01 00 00 04 00 00 00 ff d0
+0x009fc0c3:   c5 f8 77 81 7d 0c 9a 8a 9f 00 0f 84 0d 00 00 00
+0x009fc0d3:   81 7d 0c ab 8a 9f 00 0f 85 06 00 00 00 83 ec 08 
+
+
+Register to memory mapping:
+
+EAX=0x00000000 is an unknown value
+EBX={method} {0x12c60bc4} 'registerNatives' '()V' in 'java/lang/Object'
+ECX=0x00000000 is an unknown value
+EDX=0x0088a248 is an unknown value
+ESP=0x009bfa78 is pointing into the stack for thread: 0x00889800
+EBP=0x009bfa98 is pointing into the stack for thread: 0x00889800
+ESI={method} {0x12c60bc4} 'registerNatives' '()V' in 'java/lang/Object'
+EDI=0x00889800 is a thread
+
+
+Stack: [0x00970000,0x009c0000],  sp=0x009bfa78,  free space=318k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+j  java.lang.Object.registerNatives()V+0
+j  java.lang.Object.<clinit>()V+0
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0x158985]
+V  [jvm.dll+0x21df3e]
+V  [jvm.dll+0x158a1e]
+V  [jvm.dll+0xbe71b]
+V  [jvm.dll+0xbf8c7]
+V  [jvm.dll+0xbfa18]
+V  [jvm.dll+0xbf7ef]
+V  [jvm.dll+0xbfa18]
+V  [jvm.dll+0x17654c]
+V  [jvm.dll+0xe5011]
+C  [java.exe+0x14c6]
+C  [java.exe+0x203a]
+C  [java.exe+0xae9f]
+C  [java.exe+0xaf29]
+C  [kernel32.dll+0xb713]
+C  0x00000000
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  java.lang.Object.registerNatives()V+0
+j  java.lang.Object.<clinit>()V+0
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+=>0x00889800 JavaThread "Unknown thread" [_thread_in_native, id=2464, stack(0x00970000,0x009c0000)]
+
+Other Threads:
+  0x02b67400 VMThread [stack: 0x130c0000,0x13110000] [id=1660]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ def new generation   total 4928K, used 88K [0x02c00000, 0x03150000, 0x08150000)
+  eden space 4416K,   2% used [0x02c00000, 0x02c16158, 0x03050000)
+  from space 512K,   0% used [0x03050000, 0x03050000, 0x030d0000)
+  to   space 512K,   0% used [0x030d0000, 0x030d0000, 0x03150000)
+ tenured generation   total 10944K, used 0K [0x08150000, 0x08c00000, 0x12c00000)
+   the space 10944K,   0% used [0x08150000, 0x08150000, 0x08150200, 0x08c00000)
+ Metaspace       used 515K, capacity 2240K, committed 2240K, reserved 4480K
+
+Card table byte_map: [0x02b70000,0x02c00000] byte_map_base: 0x02b5a000
+
+Polling page: 0x009c0000
+
+CodeCache: size=32768Kb used=330Kb max_used=330Kb free=32437Kb
+ bounds [0x009f0000, 0x00a48000, 0x029f0000]
+ total_blobs=54 nmethods=0 adapters=31
+ compilation: enabled
+
+Compilation events (0 events):
+No events
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (10 events):
+Event: 0.029 loading class java/lang/Short done
+Event: 0.029 loading class java/lang/Integer
+Event: 0.029 loading class java/lang/Integer done
+Event: 0.029 loading class java/lang/Long
+Event: 0.029 loading class java/lang/Long done
+Event: 0.029 loading class java/lang/NullPointerException
+Event: 0.029 loading class java/lang/NullPointerException done
+Event: 0.030 loading class java/lang/ArithmeticException
+Event: 0.030 loading class java/lang/ArithmeticException done
+Event: 0.030 Thread 0x00889800 Thread added: 0x00889800
+
+
+Dynamic libraries:
+0x00400000 - 0x00433000 	E:\setup\xp\java\jdk1.8.0_65\bin\java.exe
+0x7c920000 - 0x7c9b3000 	C:\windows\system32\ntdll.dll
+0x7c800000 - 0x7c91e000 	C:\windows\system32\kernel32.dll
+0x77da0000 - 0x77e49000 	C:\windows\system32\ADVAPI32.dll
+0x77e50000 - 0x77ee2000 	C:\windows\system32\RPCRT4.dll
+0x77fc0000 - 0x77fd1000 	C:\windows\system32\Secur32.dll
+0x77d10000 - 0x77da0000 	C:\windows\system32\USER32.dll
+0x77ef0000 - 0x77f39000 	C:\windows\system32\GDI32.dll
+0x77180000 - 0x77283000 	C:\windows\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.5512_x-ww_35d4ce83\COMCTL32.dll
+0x77be0000 - 0x77c38000 	C:\windows\system32\msvcrt.dll
+0x77f40000 - 0x77fb6000 	C:\windows\system32\SHLWAPI.dll
+0x76300000 - 0x7631d000 	C:\windows\system32\IMM32.DLL
+0x62c20000 - 0x62c29000 	C:\windows\system32\LPK.DLL
+0x73fa0000 - 0x7400b000 	C:\windows\system32\USP10.dll
+0x78aa0000 - 0x78b5f000 	E:\setup\xp\java\jdk1.8.0_65\jre\bin\msvcr100.dll
+0x6d260000 - 0x6d624000 	E:\setup\xp\java\jdk1.8.0_65\jre\bin\client\jvm.dll
+0x71a40000 - 0x71a4b000 	C:\windows\system32\WSOCK32.dll
+0x71a20000 - 0x71a37000 	C:\windows\system32\WS2_32.dll
+0x71a10000 - 0x71a18000 	C:\windows\system32\WS2HELP.dll
+0x76b10000 - 0x76b3a000 	C:\windows\system32\WINMM.dll
+0x77bd0000 - 0x77bd8000 	C:\windows\system32\VERSION.dll
+0x76bc0000 - 0x76bcb000 	C:\windows\system32\PSAPI.DLL
+0x707d0000 - 0x707dc000 	E:\setup\xp\java\jdk1.8.0_65\jre\bin\verify.dll
+0x6db10000 - 0x6db31000 	E:\setup\xp\java\jdk1.8.0_65\jre\bin\java.dll
+0x70860000 - 0x70873000 	E:\setup\xp\java\jdk1.8.0_65\jre\bin\zip.dll
+0x68d60000 - 0x68e01000 	C:\windows\system32\dbghelp.dll
+
+VM Arguments:
+java_command: <unknown>
+java_class_path (initial): .
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=E:\setup\xp\java\jdk1.7.0_79
+PATH=C:\Program Files\Intel\iCLS Client\;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;;E:\setup\public\NDK\ndk-r10d-x86;E:\setup\xp\java\jdk1.7.0_79\bin;E:\setup\xp\Oracle\Mysql\bin;C:\Program Files\Common Files\System\ado;C:\Program Files\Common Files\System\msadc;C:\Program Files\Common Files\System\Ole DB;E:\setup\xp\java\android\sdk\platform-tools;E:\setup\xp\apache\Apache24\bin;
+USERNAME=cxj
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 58 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 5.1 Build 2600 (5.1.2600.5512)
+
+CPU:total 4 (2 cores per cpu, 2 threads per core) family 6 model 58 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, erms, ht, tsc, tscinvbit, tscinv
+
+Memory: 4k page, physical 3021600k(1510452k free), swap 4958096k(3463344k free)
+
+vm_info: Java HotSpot(TM) Client VM (25.65-b01) for windows-x86 JRE (1.8.0_65-b17), built on Oct  6 2015 17:26:22 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Sat Apr 09 08:39:21 2016
+elapsed time: 0 seconds (0d 0h 0m 0s)
+

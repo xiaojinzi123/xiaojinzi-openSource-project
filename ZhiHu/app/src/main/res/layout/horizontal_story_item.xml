@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_horizontal_story_item"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+
+    <include layout="@layout/story_item" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingRight="@dimen/big_padding"
+        android:paddingTop="@dimen/base_padding"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_horizontal_story_item_delete"
+            android:layout_width="@dimen/big_icon_size"
+            android:layout_height="@dimen/big_icon_size"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/horizontal_story_item_delete_day" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,61 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--更大的外边距-->
+    <dimen name="bigger_margin">20dp</dimen>
+
+    <!--较大的外边距-->
+    <dimen name="big_margin">18dp</dimen>
+
+    <!--项目中基本的外边距-->
+    <dimen name="base_margin">12dp</dimen>
+
+    <!--项目中比基本内边距大一点-->
+    <dimen name="big_padding">14dp</dimen>
+
+    <!--项目中基本的内边距-->
+    <dimen name="base_padding">8dp</dimen>
+
+    <!--弹出菜单的imageView控件的大小-->
+    <dimen name="popup_menu_item_size">40dp</dimen>
+
+    <!--标题栏的图标的大小-->
+    <dimen name="titlebar_icon_size">26dp</dimen>
+
+    <!--再大一点的图片大小-->
+    <dimen name="bigger_icon_size">48dp</dimen>
+
+    <!--大一点的图片大小-->
+    <dimen name="big_icon_size">32dp</dimen>
+
+    <!--基本的图标的大小-->
+    <dimen name="base_icon_size">24dp</dimen>
+
+    <!--更大的字体-->
+    <dimen name="bigger_text_size">22dp</dimen>
+
+    <!--比基本的文字大小稍大一点-->
+    <dimen name="big_text_size">18dp</dimen>
+
+    <!--基本的文字大小-->
+    <dimen name="base_text_size">16sp</dimen>
+
+    <!--标题栏的文字的大小-->
+    <dimen name="titlebar_text_size">18sp</dimen>
+
+    <!--主页的广告控件的高度-->
+    <dimen name="home_frag_adv_height">220dp</dimen>
+
+    <!--广告控件中的文字大小-->
+    <dimen name="home_frag_adv_text_size">14dp</dimen>
+
+    <!--详情fragment中的上方的大图的高度-->
+    <dimen name="detail_frag_big_image_height">180dp</dimen>
+
+    <!--故事条目中的图片的大小-->
+    <dimen name="story_item_image_width">90dp</dimen>
+    <dimen name="story_item_image_height">75dp</dimen>
+
+</resources>

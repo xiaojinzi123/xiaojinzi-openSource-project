@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".modular.welcome.ui.WelcomeActivity">
+
+    <ImageView
+        android:id="@+id/iv_act_welcome"
+        android:layout_width="match_parent"
+        android:src="@mipmap/welcome"
+        android:scaleType="fitXY"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tv_act_welcome_tip"
+        android:layout_width="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="erewrewrewr"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/big_margin"
+        android:textSize="@dimen/bigger_text_size"
+        android:layout_above="@+id/tv_act_welcome_app_name"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tv_act_welcome_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="知乎日报"
+        android:layout_marginBottom="@dimen/bigger_margin"
+        android:textColor="@color/white"
+        android:textSize="@dimen/bigger_text_size"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

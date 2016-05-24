@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <xiaojinzi.android.view.nineImage.NineImageView
+        android:id="@+id/nv_frag_online_skin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

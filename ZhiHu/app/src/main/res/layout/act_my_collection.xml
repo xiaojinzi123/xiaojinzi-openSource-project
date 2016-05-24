@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_act_my_collection_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".modular.collection.ui.MyCollectionActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_act_my_collection_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/base_blue"
+        android:padding="@dimen/big_padding">
+
+        <ImageView
+            android:id="@+id/iv_act_my_collection_back"
+            android:layout_width="@dimen/titlebar_icon_size"
+            android:layout_height="@dimen/titlebar_icon_size"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/arrow_left" />
+
+        <TextView
+            android:id="@+id/tv_act_my_collection_number"
+            style="@style/base_tv_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_act_my_collection_back"
+            android:gravity="center_horizontal"
+            android:text="我的收藏" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lv_act_my_collection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_act_my_collection_titlebar"/>
+
+    <ImageView
+        android:id="@+id/iv_act_my_collection_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:src="@mipmap/act_my_collection_empty_day"/>
+
+</RelativeLayout>

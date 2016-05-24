@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/base_padding">
+
+    <TextView
+        android:id="@+id/tv_act_myskin_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="炫酷黑" />
+
+    <TextView
+        android:id="@+id/tv_act_myskin_item_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_act_myskin_item_name"
+        android:layout_toRightOf="@+id/tv_act_myskin_item_name"
+        android:text="炫酷黑" />
+
+    <ImageView
+        android:id="@+id/iv_act_myskin_item_environment"
+        android:layout_width="@dimen/base_icon_size"
+        android:layout_height="@dimen/base_icon_size"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/act_myskin_day_day" />
+
+</RelativeLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:id="@+id/dl_act_main"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context="com.example.cxj.zhihu.modular.main.ui.MainActivity">-->
+
+    <!--<include layout="@layout/act_main_body"/>-->
+
+    <!--<include layout="@layout/act_main_menu"/>-->
+
+<!--</android.support.v4.widget.DrawerLayout>-->
+
+<xiaojinzi.view.scaleSlideMenu.ScaleSlideMenu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ssm_act_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.cxj.zhihu.modular.main.ui.MainActivity">
+
+    <include layout="@layout/act_main_menu"/>
+
+    <include layout="@layout/act_main_body"/>
+
+
+</xiaojinzi.view.scaleSlideMenu.ScaleSlideMenu>

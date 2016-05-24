@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/rl_act_myskin_container"
+    android:layout_height="match_parent"
+    tools:context="com.example.cxj.zhihu.modular.skin.ui.MySkinActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_act_myskin_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/base_blue"
+        android:padding="@dimen/big_padding">
+
+        <ImageView
+            android:id="@+id/iv_act_myskin_back"
+            android:layout_width="@dimen/titlebar_icon_size"
+            android:layout_height="@dimen/titlebar_icon_size"
+            android:src="@mipmap/arrow_left" />
+
+        <ImageView
+            android:id="@+id/iv_act_skin_confirm"
+            android:layout_width="@dimen/titlebar_icon_size"
+            android:layout_height="@dimen/titlebar_icon_size"
+            android:layout_marginRight="@dimen/base_padding"
+            android:layout_toLeftOf="@+id/iv_act_skin_delete"
+            android:src="@mipmap/act_myskin_confirm" />
+
+        <ImageView
+            android:id="@+id/iv_act_skin_delete"
+            android:layout_width="@dimen/titlebar_icon_size"
+            android:layout_height="@dimen/titlebar_icon_size"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/delete" />
+
+        <TextView
+            style="@style/base_tv_titlebar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="我的皮肤" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lv_act_my_skin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_act_myskin_titlebar"></ListView>
+
+
+</RelativeLayout>

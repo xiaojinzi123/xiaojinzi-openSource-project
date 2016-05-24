@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--viewpager+fragment实现左右滑动显示不同故事的详情-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_act_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+    <RelativeLayout
+        android:id="@+id/rl_act_detail_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/base_blue"
+        android:padding="@dimen/big_padding">
+
+        <ImageView
+            android:id="@+id/iv_act_detail_back"
+            android:layout_width="@dimen/titlebar_icon_size"
+            android:layout_height="@dimen/titlebar_icon_size"
+            android:src="@mipmap/arrow_left" />
+
+        <ImageView
+            android:id="@+id/iv_act_detail_collection"
+            android:layout_width="@dimen/titlebar_icon_size"
+            android:layout_height="@dimen/titlebar_icon_size"
+            android:layout_marginRight="@dimen/base_margin"
+            android:layout_toLeftOf="@+id/iv_act_detail_share"
+            android:src="@mipmap/act_detail_no_collection" />
+
+        <ImageView
+            android:id="@+id/iv_act_detail_share"
+            android:layout_width="@dimen/titlebar_icon_size"
+            android:layout_height="@dimen/titlebar_icon_size"
+            android:layout_marginRight="@dimen/base_margin"
+            android:layout_toLeftOf="@+id/iv_act_detail_message"
+            android:src="@mipmap/home_share" />
+
+        <ImageView
+            android:id="@+id/iv_act_detail_message"
+            android:layout_width="@dimen/titlebar_icon_size"
+            android:layout_height="@dimen/titlebar_icon_size"
+            android:layout_marginRight="@dimen/base_margin"
+            android:layout_toLeftOf="@+id/tv_act_detail_message"
+            android:src="@mipmap/home_message" />
+
+        <TextView
+            android:id="@+id/tv_act_detail_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/base_margin"
+            android:layout_toLeftOf="@+id/iv_act_detail_zan"
+            android:text="..."
+            android:textSize="@dimen/titlebar_text_size"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_act_detail_zan"
+            android:layout_width="@dimen/titlebar_icon_size"
+            android:layout_height="@dimen/titlebar_icon_size"
+            android:layout_marginRight="@dimen/base_margin"
+            android:layout_toLeftOf="@+id/tv_act_detail_zan"
+            android:src="@mipmap/home_zan" />
+
+        <TextView
+            android:id="@+id/tv_act_detail_zan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/titlebar_text_size"
+            android:text="..."
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--白色-->
+    <color name="white">#FFFFFF</color>
+    <!--红色-->
+    <color name="red">#FF0000</color>
+    <!--黑色-->
+    <color name="black">#000000</color>
+
+    <!--项目中基本的蓝色基调颜色-->
+    <color name="base_blue">#00A2ED</color>
+    <!--主页的内容的背景颜色-->
+    <color name="home_content_bg">#F3F3F3</color>
+
+</resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_act_online_skin_container"
+    tools:context=".modular.skin.ui.OnlineSkinActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_act_online_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/base_blue"
+        android:padding="@dimen/big_padding">
+
+        <ImageView
+            android:id="@+id/iv_act_online_skin_back"
+            android:layout_width="@dimen/titlebar_icon_size"
+            android:layout_height="@dimen/titlebar_icon_size"
+            android:src="@mipmap/arrow_left" />
+
+        <ImageView
+            android:id="@+id/iv_act_online_skin_download"
+            android:layout_width="@dimen/titlebar_icon_size"
+            android:layout_height="@dimen/titlebar_icon_size"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/act_skin_download" />
+
+        <TextView
+            style="@style/base_tv_titlebar"
+            android:id="@+id/tv_act_online_skin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="在线皮肤" />
+
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_act_online_skin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_act_online_titlebar" />
+
+</RelativeLayout>
