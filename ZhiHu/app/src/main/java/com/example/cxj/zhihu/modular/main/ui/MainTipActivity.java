@@ -69,7 +69,6 @@ public class MainTipActivity extends BaseActivity {
         alphaAnimation.setAnimationListener(new AnimationListenerAdapter() {
             @Override
             public void onAnimationEnd(Animation animation) {
-                SPUtil.put(context, Constant.SP.mainAct.isShowMainTip, true);
                 rl_container.setAlpha(0f);
                 finish();
                 iv.clearAnimation();
@@ -80,4 +79,10 @@ public class MainTipActivity extends BaseActivity {
         rl_container.startAnimation(alphaAnimation);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        //保存已经提示过的标识
+        SPUtil.put(context, Constant.SP.mainAct.isShowMainTip, true);
+    }
 }

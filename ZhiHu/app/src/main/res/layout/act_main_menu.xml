@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:id="@+id/ll_act_main_menu"
     android:layout_gravity="left"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <ListView
         android:id="@+id/lv_act_main_menu"
+        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

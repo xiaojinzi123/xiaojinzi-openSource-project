@@ -53,11 +53,8 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
     public static final String TAG = "MainActivity";
 
     /**
-     * 抽屉式菜单
+     * 自定义侧滑菜单
      */
-//    @Injection(R.id.dl_act_main)
-//    private DrawerLayout drawerLayout = null;
-
     @Injection(R.id.ssm_act_main)
     private ScaleSlideMenu ssm = null;
 
@@ -70,15 +67,27 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
      */
     private MenuAdapter adapter;
 
+    /**
+     * 菜单部分的容器
+     */
     @Injection(R.id.ll_act_main_menu)
     private LinearLayout ll_menu = null;
 
+    /**
+     * 右下角的弹出式小控件
+     */
     @Injection(R.id.sm_act_main_body_menu)
     private SmartMenu sm = null;
 
+    /**
+     * 显示现在皮肤模式的文本
+     */
     @Injection(R.id.tv_act_main_body_mode_textcontent)
     private TextView tv_mode = null;
 
+    /**
+     * 显示现在的皮肤模式的图标
+     */
     @Injection(R.id.iv_act_main_body_mode_icon)
     private ImageView iv_mode = null;
 
@@ -99,6 +108,11 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
 
     @Override
     public void initView() {
+        loadStyle();
+    }
+
+    @Override
+    public void initData() {
         //切换至主页
         changeToHomeFragment();
         //加载提示页面
@@ -106,11 +120,7 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
         if (!isShowMainTip) {
             ActivityUtil.startActivity(context, MainTipActivity.class);
         }
-    }
-
-    @Override
-    public void initData() {
-        int mode = SPUtil.get(this, Constant.SP.common.showMode, 0);
+        //根据皮肤的模式改变对应的文本和图标
         changeShowTextAndIcon();
         //加载左边的菜单数据
         loadLeftMenuData();
@@ -120,6 +130,7 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
      * 加载左边的菜单数据
      */
     private void loadLeftMenuData() {
+
         //获取菜单中的主题日报的列表
         MyApp.ah.getWithoutJsonCache(Constant.Url.MainAct.themesListUrl, new BaseDataHandlerAdapter() {
             @Override
@@ -130,6 +141,7 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
                 adapter = new MenuAdapter(context, themeList.getOthers(), R.layout.act_main_menu_item);
                 //把头布局文件转化成View对象
                 addMenuListHeaderView();
+                //设置左边listview的适配器
                 lv_themes.setAdapter(adapter);
             }
 
@@ -140,26 +152,27 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
     }
 
     /**
-     * 添加左边菜单的头
+     * 添加左边菜单的头,这个不是异步加载的,所以可以先显示出来的,在没有网络的情况下
      */
     private void addMenuListHeaderView() {
         //菜单listview的头
         View tagHead = View.inflate(context, R.layout.act_main_menu_tag, null);
         //设置listview背景
-        lv_themes.setBackgroundColor(MyApp.skin.memuSkin.getListBgColor());
+//        lv_themes.setBackgroundColor(MyApp.skin.memuSkin.getListBgColor());
         //获取头部的几个能点的控件的容器,包括:头像图标和请登录文字,收藏图标和我的收藏文字,下载图标和离线下载文字
         RelativeLayout rl_tag_option = (RelativeLayout) tagHead.findViewById(R.id.rl_act_main_menu_tag_option);
         //设置头部背景
-        rl_tag_option.setBackgroundColor(MyApp.skin.memuSkin.getTitleBarBgColor());
+//        rl_tag_option.setBackgroundColor(MyApp.skin.memuSkin.getTitleBarBgColor());
         //获取首页条目的布局
         LinearLayout ll_home = (LinearLayout) tagHead.findViewById(R.id.ll_act_main_menu_tag_home);
         //设置首页独特的背景
-        ll_home.setBackgroundColor(MyApp.skin.memuSkin.getHomeItemBgColor());
+//        ll_home.setBackgroundColor(MyApp.skin.memuSkin.getHomeItemBgColor());
         //设置点击主页条目的点击事件
         ll_home.setOnClickListener(this);
         //获取我的收藏图标和文字控件
         ImageView iv_collection = (ImageView) tagHead.findViewById(R.id.iv_act_main_menu_collect_tag_icon);
         TextView tv_collection = (TextView) tagHead.findViewById(R.id.tv_act_main_menu_collect_tag_text);
+        //设置收藏的点击事件
         iv_collection.setOnClickListener(this);
         tv_collection.setOnClickListener(this);
         //把整个头部的试图加入到listview上面去
@@ -168,22 +181,8 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
 
     @Override
     public void setOnlistener() {
-        //监听侧滑菜单的状态
-//        drawerLayout.addDrawerListener(new MyDrawerListener() {
-//            @Override
-//            public void onDrawerOpened(View drawerView) {
-//                if (themeList == null) { //菜单完全打开的时候,如果菜单的数据没有加载,那么就去加载一下
-//                    loadLeftMenuData();
-//                }
-//                EBus.postEvent(Constant.MENUOPENED_FLAG);
-//            }
-//
-//            @Override
-//            public void onDrawerClosed(View drawerView) {
-//                EBus.postEvent(Constant.MENUCLOSED_FLAG);
-//            }
-//        });
 
+        //设置侧滑菜单的状态
         ssm.setOnMenuStateListener(new ScaleSlideMenu.OnMenuStateListener() {
             @Override
             public void onMenuState(boolean state) {
@@ -209,7 +208,6 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
                 }
                 Theme theme = themeList.getOthers().get(position - lv_themes.getHeaderViewsCount());
                 changeFragment(new ThemeFragment(theme));
-//                drawerLayout.closeDrawer(Gravity.LEFT);
                 ssm.closeMenu();
             }
         });
@@ -230,19 +228,16 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
     }
 
     /**
-     * 加载样式
+     * 根据皮肤的模式,对此界面加载样式
      */
     private void loadStyle() {
-        //设置菜单的背景色
-        ll_menu.setBackgroundColor(MyApp.skin.memuSkin.getListBgColor());
-        //设置listview的背景色
-        lv_themes.setBackgroundColor(MyApp.skin.memuSkin.getListBgColor());
-        //拿到listview的第一个孩子
-        View tagHead = lv_themes.getChildAt(0);
-        RelativeLayout rl_tag_option = (RelativeLayout) tagHead.findViewById(R.id.rl_act_main_menu_tag_option);
-        rl_tag_option.setBackgroundColor(MyApp.skin.memuSkin.getTitleBarBgColor());
-        LinearLayout ll_home = (LinearLayout) tagHead.findViewById(R.id.ll_act_main_menu_tag_home);
-        ll_home.setBackgroundColor(MyApp.skin.memuSkin.getHomeItemBgColor());
+        //获取现在皮肤的模式,然后更换背景
+        int environment = MyApp.skin.getEnvironment();
+        if (environment == Skin.DAY_ENVIRONMENT) {
+            ssm.setBackgroundResource(R.drawable.main_bg_day);
+        }else{
+            ssm.setBackgroundResource(R.drawable.main_bg_night);
+        }
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
@@ -274,7 +269,7 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
     }
 
     /**
-     * 弹出菜单
+     * 其他界面要求弹出菜单弹出菜单
      */
     public void onEventPopupMenu() {
 //        drawerLayout.openDrawer(Gravity.LEFT);
@@ -302,6 +297,12 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
         }
     }
 
+    /**
+     *  界面中右下角的弹出小控件的回调方法
+     *
+     * @param v        被点击的小菜单,如果不是点击小菜单引起的收缩,值为null
+     * @param position 点击的是第几个菜单,如果不是点击小菜单引起的收缩,值为null
+     */
     @Override
     public void handle(View v, Integer position) {
         if (v == null || position == null) {
@@ -370,6 +371,10 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
         return b1 && b2;
     }
 
+    /**
+     * 处理点击事件
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         int id = v.getId();

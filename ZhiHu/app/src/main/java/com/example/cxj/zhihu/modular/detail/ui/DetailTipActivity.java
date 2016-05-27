@@ -45,12 +45,18 @@ public class DetailTipActivity extends BaseActivity {
         alphaAnimation.setAnimationListener(new AnimationListenerAdapter() {
             @Override
             public void onAnimationEnd(Animation animation) {
-                SPUtil.put(context, Constant.SP.detailAct.isShowDetailTip, true);
                 rl_container.setAlpha(0f);
                 rl_container.clearAnimation();
                 finish();
             }
         });
         rl_container.startAnimation(alphaAnimation);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        //保存已经提示过的标识,下次不再提示
+        SPUtil.put(context, Constant.SP.detailAct.isShowDetailTip, true);
     }
 }

@@ -307,29 +307,29 @@ public class ScaleSlideMenu extends ViewGroup {
                 finalX = (int) ev.getX();
                 finalY = (int) ev.getY();
 
+                //计算坐标之间的差值
+                int dx = Math.abs(finalX - downPoint.x);
+                int dy = Math.abs(finalY - downPoint.y);
+
                 //菜单没有打开
-                if (!isMenuOpen) {
-                    //计算坐标之间的差值
-                    int dx = Math.abs(finalX - downPoint.x);
-                    int dy = Math.abs(finalY - downPoint.y);
+                if (!isMenuOpen && (dx != 0 || dy!=0)) {
 
                     if (dx > dy) { //说明水平方向的滑动多余竖直方向的,需要拦截
                         if (menuGravity == MENU_GRAVITY_LEFT) { //如果菜单在左边
                             if (downPoint.x < mWidth * slidePercent) {
-                                isAdjustEvent = true;
                                 isInterceptTouchEvent = true;
                                 currentX = downPoint.x;
                                 currentY = downPoint.y;
                             }
                         } else { //菜单在右边
                             if (downPoint.x > (mWidth - mWidth * slidePercent)) {
-                                isAdjustEvent = true;
                                 isInterceptTouchEvent = true;
                                 currentX = downPoint.x;
                                 currentY = downPoint.y;
                             }
                         }
                     }
+                    isAdjustEvent = true;
                 }
                 break;
         }

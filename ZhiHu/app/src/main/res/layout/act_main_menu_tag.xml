@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/rl_act_main_menu_tag_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/base_blue"
         android:padding="@dimen/base_margin">
 
         <ImageView
@@ -74,7 +72,6 @@
     <LinearLayout
         android:id="@+id/ll_act_main_menu_tag_home"
         android:layout_width="match_parent"
-        android:background="#F0F0F0"
         android:padding="@dimen/base_margin"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_act_main_menu_tag_option"

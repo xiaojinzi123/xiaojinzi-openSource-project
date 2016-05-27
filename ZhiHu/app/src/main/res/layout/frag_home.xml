@@ -39,7 +39,7 @@
             android:layout_height="@dimen/titlebar_icon_size"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/base_padding"
-            android:layout_toLeftOf="@+id/iv_frag_home_bell"
+            android:layout_alignParentRight="true"
             android:src="@mipmap/setting" />
 
         <ImageView
@@ -47,6 +47,7 @@
             android:layout_width="@dimen/titlebar_icon_size"
             android:layout_height="@dimen/titlebar_icon_size"
             android:layout_alignParentRight="true"
+            android:visibility="gone"
             android:layout_centerVertical="true"
             android:src="@mipmap/home_bell" />
 
