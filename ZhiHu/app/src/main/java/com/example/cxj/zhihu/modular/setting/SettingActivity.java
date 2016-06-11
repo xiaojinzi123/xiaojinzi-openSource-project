@@ -22,10 +22,12 @@ import com.example.cxj.zhihu.modular.skin.ui.OnlineSkinActivity;
 import com.example.cxj.zhihu.service.AutoChangeSkinService;
 
 import xiaojinzi.activity.BaseActivity;
-import xiaojinzi.animation.TranslateAnimationUtil;
-import xiaojinzi.annotation.Injection;
+
+
 import xiaojinzi.base.android.activity.ActivityUtil;
 import xiaojinzi.base.android.store.SPUtil;
+import xiaojinzi.viewAnimation.TranslateAnimationUtil;
+import xiaojinzi.viewAnnotation.Injection;
 
 
 /**

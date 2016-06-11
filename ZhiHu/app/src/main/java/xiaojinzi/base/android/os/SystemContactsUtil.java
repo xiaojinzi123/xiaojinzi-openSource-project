@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 
 import xiaojinzi.base.android.os.entity.Contacts;
-import xiaojinzi.base.java.util.StringUtil;
+import xiaojinzi.base.java.common.StringUtil;
 
 /**
  * 系统联系人的工具类 需要权限：

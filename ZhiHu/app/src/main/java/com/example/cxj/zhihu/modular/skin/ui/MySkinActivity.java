@@ -21,10 +21,11 @@ import java.util.List;
 
 import xiaojinzi.EBus.EBus;
 import xiaojinzi.activity.BaseActivity;
-import xiaojinzi.annotation.Injection;
+
 import xiaojinzi.base.android.os.T;
 import xiaojinzi.base.android.store.SPUtil;
 import xiaojinzi.json.android.JsonUtil;
+import xiaojinzi.viewAnnotation.Injection;
 
 
 /**

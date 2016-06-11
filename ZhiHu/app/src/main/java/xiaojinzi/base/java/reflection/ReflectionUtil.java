@@ -7,8 +7,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import xiaojinzi.base.android.log.L;
-import xiaojinzi.base.java.util.StringUtil;
+import xiaojinzi.base.java.common.StringUtil;
+import xiaojinzi.base.java.log.L;
 
 
 /**

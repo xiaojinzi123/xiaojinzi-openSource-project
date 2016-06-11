@@ -3,6 +3,7 @@ package xiaojinzi.base.android.os;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -32,7 +33,7 @@ public class ScreenUtils
 				.getSystemService(Context.WINDOW_SERVICE);
 		DisplayMetrics outMetrics = new DisplayMetrics();
 		wm.getDefaultDisplay().getMetrics(outMetrics);
-		return outMetrics.widthPixels;
+		return (int) (outMetrics.widthPixels / outMetrics.density);
 	}
 
 	/**
@@ -47,7 +48,7 @@ public class ScreenUtils
 				.getSystemService(Context.WINDOW_SERVICE);
 		DisplayMetrics outMetrics = new DisplayMetrics();
 		wm.getDefaultDisplay().getMetrics(outMetrics);
-		return outMetrics.heightPixels;
+		return (int) (outMetrics.heightPixels / outMetrics.density);
 	}
 
 	/**

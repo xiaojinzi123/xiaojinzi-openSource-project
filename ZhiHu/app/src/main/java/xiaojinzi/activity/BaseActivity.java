@@ -7,7 +7,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import xiaojinzi.EBus.EBus;
-import xiaojinzi.annotation.ViewInjectionUtil;
+import xiaojinzi.viewAnnotation.ViewInjectionUtil;
 
 
 /**

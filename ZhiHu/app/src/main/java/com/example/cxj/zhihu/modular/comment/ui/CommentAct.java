@@ -24,9 +24,12 @@ import java.util.List;
 
 import xiaojinzi.EBus.EBus;
 import xiaojinzi.activity.BaseActivity;
-import xiaojinzi.annotation.Injection;
+
+import xiaojinzi.base.java.net.HttpRequest;
 import xiaojinzi.json.android.JsonUtil;
-import xiaojinzi.net.adapter.BaseDataHandlerAdapter;
+import xiaojinzi.net.adapter.ResponseHandlerAdapter;
+import xiaojinzi.net.filter.PdHttpRequest;
+import xiaojinzi.viewAnnotation.Injection;
 
 
 /**
@@ -103,9 +106,10 @@ public class CommentAct extends BaseActivity {
      */
     private void loadLongCommentData() {
         //根据故事的id获取这个故事的长评的信息
-        MyApp.ah.get(Constant.Url.commentAct.commentUrlPrefix + storyId + Constant.Url.commentAct.longCommentUrlSubfix, new BaseDataHandlerAdapter() {
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.commentAct.commentUrlPrefix + storyId + Constant.Url.commentAct.longCommentUrlSubfix);
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter() {
             @Override
-            public void handler(String data) throws Exception {
+            public void handler(String data, Object[] p) throws Exception {
                 JsonUtil.parseObjectFromJson(comments, data);
                 comments.setLongComments(comments.getComments());
                 comments.setComments(null);
@@ -113,9 +117,11 @@ public class CommentAct extends BaseActivity {
             }
 
             @Override
-            public void error(Exception e) {
+            public void error(Exception e, Object[] p) {
+                super.error(e, p);
             }
         });
+        MyApp.ah.send(httpRequest);
     }
 
     /**
@@ -123,19 +129,17 @@ public class CommentAct extends BaseActivity {
      */
     private void loadShortCommentData() {
         //根据故事的id获取这个故事的长评的信息
-        MyApp.ah.getWithoutJsonCache(Constant.Url.commentAct.commentUrlPrefix + storyId + Constant.Url.commentAct.shortCommentUrlSubfix, new BaseDataHandlerAdapter() {
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.commentAct.commentUrlPrefix + storyId + Constant.Url.commentAct.shortCommentUrlSubfix);
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter() {
             @Override
-            public void handler(String data) throws Exception {
+            public void handler(String data, Object[] p) throws Exception {
                 JsonUtil.parseObjectFromJson(comments, data);
                 comments.setShortComments(comments.getComments());
                 comments.setComments(null);
                 showData();
             }
-
-            @Override
-            public void error(Exception e) {
-            }
         });
+        MyApp.ah.send(httpRequest);
     }
 
     /**
@@ -205,7 +209,7 @@ public class CommentAct extends BaseActivity {
                 // 当不滚动时
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     // 判断是否滚动到底部
-                    if (view.getLastVisiblePosition() == view.getCount() - 1 && tmpInfo.isOpenShortComment ) {
+                    if (view.getLastVisiblePosition() == view.getCount() - 1 && tmpInfo.isOpenShortComment) {
                         getBeforComments();
                     }
                 }
@@ -233,21 +237,19 @@ public class CommentAct extends BaseActivity {
     /**
      * 获取过往的评论
      */
-    private void getBeforComments(){
+    private void getBeforComments() {
         Comment comment = data.get(data.size() - 1);
         //根据故事的id获取这个故事的长评的信息
-        MyApp.ah.getWithoutJsonCache(Constant.Url.commentAct.commentUrlPrefix + storyId +
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.commentAct.commentUrlPrefix + storyId +
                 Constant.Url.commentAct.shortCommentUrlSubfix +
-                "/before/" + comment.getId(), new BaseDataHandlerAdapter() {
+                "/before/" + comment.getId());
+
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter() {
             @Override
-            public void handler(String jsonData) throws Exception {
+            public void handler(String jsonData, Object[] p) throws Exception {
                 Comments tmpComments = JsonUtil.createObjectFromJson(Comments.class, jsonData);
                 data.addAll(tmpComments.getComments());
                 adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void error(Exception e) {
             }
         });
     }

@@ -26,11 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xiaojinzi.activity.BaseFragmentActivity;
-import xiaojinzi.annotation.Injection;
+
 import xiaojinzi.base.android.os.ProgressDialogUtil;
 import xiaojinzi.base.android.os.T;
 import xiaojinzi.json.android.JsonUtil;
-import xiaojinzi.net.adapter.BaseDataHandlerAdapter;
+import xiaojinzi.net.adapter.ResponseHandlerAdapter;
+import xiaojinzi.net.filter.PdHttpRequest;
+import xiaojinzi.viewAnnotation.Injection;
 
 
 /**
@@ -108,9 +110,10 @@ public class OnlineSkinActivity extends BaseFragmentActivity {
         popupDialog();
 
         //加载在线皮肤信息
-        MyApp.ah.getWithoutJsonCache(Constant.Url.skinAct.skinListUrl, new BaseDataHandlerAdapter() {
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.skinAct.skinListUrl);
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter(){
             @Override
-            public void handler(String data) throws Exception {
+            public void handler(String data, Object[] p) throws Exception {
                 //创建一个和相应的json一样的实体对象
                 Msg m = new Msg();
                 //这里矿建创建对象的时候会失败,因为这里用了泛型,所以手动帮框架创建了一个对象
@@ -129,11 +132,12 @@ public class OnlineSkinActivity extends BaseFragmentActivity {
             }
 
             @Override
-            public void error(Exception e) {
+            public void error(Exception e, Object[] p) {
                 closeDialog();
                 T.showShort(OnlineSkinActivity.this, "服务器正在打盹~~~~~");
             }
         });
+        MyApp.ah.send(httpRequest);
     }
 
     @Override

@@ -24,8 +24,9 @@ import com.example.cxj.zhihu.modular.detail.ui.DetailActivity;
 import java.util.List;
 
 import xiaojinzi.activity.BaseActivity;
-import xiaojinzi.annotation.Injection;
+
 import xiaojinzi.base.android.log.L;
+import xiaojinzi.viewAnnotation.Injection;
 
 
 /**

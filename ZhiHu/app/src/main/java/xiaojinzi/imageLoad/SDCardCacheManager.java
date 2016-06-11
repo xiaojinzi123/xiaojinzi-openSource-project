@@ -7,8 +7,7 @@ import java.io.IOException;
 
 import xiaojinzi.base.android.log.L;
 import xiaojinzi.base.android.os.SDCardUtils;
-import xiaojinzi.base.android.store.FileUtil;
-import xiaojinzi.base.java.util.StringUtil;
+import xiaojinzi.base.java.common.StringUtil;
 
 
 /**
@@ -81,7 +80,7 @@ public class SDCardCacheManager {
             L.s(tag, "尝试缓存图片:" + file.getPath());
         }
         //异步保存图片资源
-        FileUtil.getInstance().asyncSaveFile(file, bts);
+        xiaojinzi.base.android.store.FileUtil.getInstance().asyncSaveFile(file, bts);
     }
 
     /**
@@ -99,7 +98,7 @@ public class SDCardCacheManager {
             return null;
         }
         try {
-            byte[] bytes = xiaojinzi.base.java.util.FileUtil.readFileToBytes(cacheFile);
+            byte[] bytes = xiaojinzi.base.java.io.FileUtil.readFileToBytes(cacheFile);
             if (isLog) {
                 L.s(tag, "二级缓存中拿出图片资源:" + cacheFile.getPath());
             }

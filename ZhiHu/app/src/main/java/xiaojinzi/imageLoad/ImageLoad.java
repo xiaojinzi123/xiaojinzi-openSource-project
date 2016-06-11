@@ -2,7 +2,6 @@ package xiaojinzi.imageLoad;
 
 
 import android.annotation.SuppressLint;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -13,8 +12,11 @@ import java.io.File;
 
 import xiaojinzi.base.android.log.L;
 import xiaojinzi.base.android.os.SystemInfo;
+import xiaojinzi.base.java.net.HttpRequest;
+import xiaojinzi.base.java.net.handler.ResponseHandler;
 import xiaojinzi.net.AsyncHttp;
-import xiaojinzi.net.adapter.BaseDataHandlerAdapter;
+import xiaojinzi.net.adapter.ResponseHandlerAdapter;
+import xiaojinzi.net.filter.PdHttpRequest;
 
 
 /**
@@ -168,7 +170,7 @@ public class ImageLoad {
     /**
      * 异步请求框架
      */
-    private static AsyncHttp<Void> asynHttp = new AsyncHttp<Void>();
+    private static AsyncHttp asynHttp = new AsyncHttp();
 
     /**
      * 异步加载图片
@@ -258,11 +260,11 @@ public class ImageLoad {
 
             final String netUrl = tmpUrl;
 
-            // 请求图片的二进制数据
-            asynHttp.get(netUrl, AsyncHttp.BaseDataHandler.BYTEARRAYDATA, new BaseDataHandlerAdapter() {
+            PdHttpRequest pdHttpRequest = new PdHttpRequest(netUrl, ResponseHandler.BYTEARRAYDATA);
 
+            pdHttpRequest.setResponseHandler(new ResponseHandlerAdapter(){
                 @Override
-                public void handler(byte[] bt) { //如果请求图片成功,不仅要放在一级缓存中,还要放在二级缓存中
+                public void handler(byte[] bt, Object[] p) throws Exception {
                     //设置图片,并且放入了一级缓存中,url不能传错了,是最开始的那个
                     setImage(bt, img, url, isFitImageView);
                     if (onResultListener != null) {
@@ -275,7 +277,7 @@ public class ImageLoad {
                 }
 
                 @Override
-                public void error(Exception e) {
+                public void error(Exception e, Object[] p) {
                     if (isLog) {
                         L.s(TAG, "请求网络图片错误,错误已打印,查看LogCat的警告等级下的信息");
                         e.printStackTrace();
@@ -295,6 +297,10 @@ public class ImageLoad {
                     }
                 }
             });
+
+            // 请求图片的二进制数据
+            asynHttp.send(pdHttpRequest);
+
         } else { // 如果一级缓存中有
             if (isLog) {
                 L.s(TAG, "一级缓存中有");

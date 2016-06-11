@@ -17,11 +17,11 @@ import com.example.cxj.zhihu.modular.collection.ui.MyCollectionActivity;
 import java.util.List;
 
 import xiaojinzi.EBus.EBus;
-import xiaojinzi.animation.TranslateAnimationUtil;
-import xiaojinzi.animation.adapter.AnimationListenerAdapter;
 import xiaojinzi.base.android.adapter.listView.CommonAdapter;
 import xiaojinzi.base.android.adapter.listView.CommonViewHolder;
 import xiaojinzi.imageLoad.ImageLoad;
+import xiaojinzi.viewAnimation.TranslateAnimationUtil;
+import xiaojinzi.viewAnimation.adapter.AnimationListenerAdapter;
 
 
 /**

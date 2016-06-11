@@ -6,13 +6,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
-import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Handler;
 
 import xiaojinzi.base.android.log.L;
-import xiaojinzi.base.java.util.InputStreamUtil;
+import xiaojinzi.base.java.io.InputStreamUtil;
 
 /**
  * android环境下的文件工具
@@ -22,8 +25,14 @@ import xiaojinzi.base.java.util.InputStreamUtil;
  */
 public class FileUtil implements Runnable {
 
+    /**
+     * 类的标识
+     */
     private static final String TAG = "xiaojinzi.android.util.FileUtil";
 
+    /**
+     * 是否打印日志
+     */
     private static final boolean isLog = false;
 
     /* 构造函数私有化 */
@@ -54,7 +63,6 @@ public class FileUtil implements Runnable {
     private Vector<TaskResult> results = new Vector<TaskResult>();
 
     /* 线程之间通信的工具 */
-    @SuppressLint("HandlerLeak")
     private Handler h = new Handler() {
         public void handleMessage(android.os.Message msg) {
 
@@ -164,53 +172,60 @@ public class FileUtil implements Runnable {
 
     }
 
+
+
+    public static File strToFile(String content, String filePath) {
+        return null;
+    }
+
     /**
-     * 保存字节数据到一个文件
+     * 把一个流对象转化成一个文件
      *
-     * @param f   要保存的文件的对象
-     * @param bts 字节数组
+     * @param is       要转化的流
+     * @param filePath 目标文件路径
      * @return
-     * @throws IOException 抛出的异常
+     * @throws IOException
      */
-    public static File saveFile(File f, byte[] bts) throws IOException {
-        FileOutputStream o = new FileOutputStream(f);
-        o.write(bts);
-        o.close();
+    public static File isToFile(InputStream is, String filePath, ProgressDialog pd) throws IOException {
+        return isToFile(is, new File(filePath), pd);
+    }
+
+    /**
+     * 把一个流对象转化成一个文件
+     *
+     * @param is 要转化的流
+     * @param f  目标文件对象
+     * @param pd
+     * @return
+     * @throws IOException
+     */
+    public static File isToFile(InputStream is, File f, ProgressDialog pd) throws IOException {
+
+        // 定义缓冲区
+        byte[] bts = new byte[1024];
+
+        // 定义读取的长度
+        int len = -1;
+
+        // 创建文件的输出流
+        FileOutputStream out = new FileOutputStream(f);
+
+        // 循环读取
+        while ((len = is.read(bts)) != -1) {
+            out.write(bts, 0, len);
+            if (pd != null) {
+                pd.setProgress(pd.getProgress() + len);
+            }
+        }
+
+        // 关闭资源
+        is.close();
+        out.close();
+
         return f;
     }
 
-    /**
-     * 返回文件字节数组
-     *
-     * @param f
-     * @return
-     * @throws Exception
-     */
-    public static byte[] getFileBytes(File f) throws Exception {
 
-        // 声明返回值
-        byte[] bts;
-
-        FileInputStream in = new FileInputStream(f);
-
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        InputStreamUtil.inputStreamIterator(in, new InputStreamUtil.HanderByteArray() {
-
-            @Override
-            public void hander(byte[] bt, int len) throws Exception {
-                out.write(bt, 0, len);
-            }
-        });
-
-        bts = out.toByteArray();
-
-        // 关闭资源
-        in.close();
-        out.close();
-
-        return bts;
-    }
 
     /**
      * 一次处理的任务

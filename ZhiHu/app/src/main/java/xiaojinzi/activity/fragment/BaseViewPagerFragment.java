@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import xiaojinzi.EBus.EBus;
-import xiaojinzi.annotation.ViewInjectionUtil;
+import xiaojinzi.viewAnnotation.ViewInjectionUtil;
 import xiaojinzi.base.android.os.ProgressDialogUtil;
 
 
@@ -114,6 +114,11 @@ public abstract class BaseViewPagerFragment extends Fragment {
      */
     public abstract int getLayoutId();
 
+
+    public boolean isAutoSubscribeEvent() {
+        return true;
+    }
+
     /**
      * 初始化试图
      */
@@ -145,15 +150,6 @@ public abstract class BaseViewPagerFragment extends Fragment {
      */
     public boolean isPopupDialog() {
         return false;
-    }
-
-    /**
-     * 是否自动订阅事件,也就是是否自动注册EBus
-     *
-     * @return
-     */
-    public boolean isAutoSubscribeEvent() {
-        return true;
     }
 
     /**

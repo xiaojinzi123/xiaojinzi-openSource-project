@@ -390,6 +390,18 @@ public class ScaleSlideMenu extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent e) {
 
+        if(!isMenuOpen()){
+            if (menuGravity == MENU_GRAVITY_LEFT) { //如果菜单在左边
+                if (downPoint.x > mWidth * slidePercent) {
+                    return false;
+                }
+            } else { //菜单在右边
+                if (downPoint.x < (mWidth - mWidth * slidePercent)) {
+                    return false;
+                }
+            }
+        }
+
         //获取事件的类型(动作)
         int action = e.getAction();
 

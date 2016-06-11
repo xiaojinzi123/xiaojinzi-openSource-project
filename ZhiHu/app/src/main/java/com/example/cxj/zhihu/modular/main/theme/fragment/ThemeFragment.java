@@ -34,15 +34,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xiaojinzi.EBus.EBus;
-import xiaojinzi.animation.RotateAnimationUtil;
-import xiaojinzi.annotation.Injection;
-import xiaojinzi.annotation.ViewInjectionUtil;
+
 import xiaojinzi.base.android.log.L;
 import xiaojinzi.base.android.os.ProgressDialogUtil;
 import xiaojinzi.base.android.os.T;
 import xiaojinzi.imageLoad.ImageLoad;
 import xiaojinzi.json.android.JsonUtil;
-import xiaojinzi.net.adapter.BaseDataHandlerAdapter;
+import xiaojinzi.net.adapter.ResponseHandlerAdapter;
+import xiaojinzi.net.filter.PdHttpRequest;
+import xiaojinzi.viewAnimation.RotateAnimationUtil;
+import xiaojinzi.viewAnnotation.Injection;
+import xiaojinzi.viewAnnotation.ViewInjectionUtil;
 
 
 /**
@@ -194,9 +196,10 @@ public class ThemeFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         tv_title.setText(theme.getName());
 
         //加载数据
-        MyApp.ah.getWithoutJsonCache(Constant.Url.MainAct.themesUrl + theme.getId(), new BaseDataHandlerAdapter() {
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.MainAct.themesUrl + theme.getId());
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter() {
             @Override
-            public void handler(String data) throws Exception {
+            public void handler(String data, Object[] p) throws Exception {
                 //转化json数据为实体对象
                 themeContent = JsonUtil.createObjectFromJson(ThemeContent.class, data);
                 //创建显示数据的适配器
@@ -209,11 +212,13 @@ public class ThemeFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             }
 
             @Override
-            public void error(Exception e) {
+            public void error(Exception e, Object[] p) {
                 closeDialog();
                 L.s(tag, "根据主题id获取主题失败");
             }
         });
+
+        MyApp.ah.send(httpRequest);
     }
 
     /**
@@ -224,7 +229,7 @@ public class ThemeFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         View view_adv = View.inflate(getActivity(), R.layout.frag_theme_adv, null);
         //找到大图控件
         ImageView iv_image = (ImageView) view_adv.findViewById(R.id.iv_frag_theme_adv_image);
-        ImageLoad.getInstance().asyncLoadImage(iv_image,themeContent.getBackground());
+        ImageLoad.getInstance().asyncLoadImage(iv_image, themeContent.getBackground());
         //找到显示标题的TextView
         TextView tv_advContent = (TextView) view_adv.findViewById(R.id.tv_frag_theme_adv_content);
         //拿到描述
@@ -242,9 +247,10 @@ public class ThemeFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         List<Story> stories = themeContent.getStories();
         Story story = stories.get(stories.size() - 1);
         //加载数据
-        MyApp.ah.getWithoutJsonCache(Constant.Url.MainAct.themesUrl + theme.getId() + "/before/" + story.getId(), new BaseDataHandlerAdapter() {
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.MainAct.themesUrl + theme.getId() + "/before/" + story.getId());
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter(){
             @Override
-            public void handler(String data) throws Exception {
+            public void handler(String data, Object[] p) throws Exception {
                 ThemeContent tmpThemeContent = JsonUtil.createObjectFromJson(ThemeContent.class, data);
                 themeContent.getStories().addAll(tmpThemeContent.getStories());
                 adapter.notifyDataSetChanged();
@@ -253,11 +259,12 @@ public class ThemeFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             }
 
             @Override
-            public void error(Exception e) {
+            public void error(Exception e, Object[] p) {
                 closeDialog();
                 L.s(tag, "加载更多主题日报失败");
             }
         });
+        MyApp.ah.send(httpRequest);
     }
 
     /**
@@ -309,10 +316,11 @@ public class ThemeFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
         popupDialog();
 
-        //加载数据
-        MyApp.ah.getWithoutJsonCache(Constant.Url.MainAct.themesUrl + theme.getId(), new BaseDataHandlerAdapter() {
+
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.MainAct.themesUrl + theme.getId());
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter() {
             @Override
-            public void handler(String data) throws Exception {
+            public void handler(String data, Object[] p) throws Exception {
                 //转化json数据为实体对象
                 ThemeContent tmpThemeContent = JsonUtil.createObjectFromJson(ThemeContent.class, data);
                 if (themeContent == null) {
@@ -338,12 +346,15 @@ public class ThemeFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             }
 
             @Override
-            public void error(Exception e) {
+            public void error(Exception e, Object[] p) {
                 closeDialog();
                 sr.setRefreshing(false);
                 L.s(tag, "根据主题id获取主题失败");
             }
         });
+
+        //加载数据
+        MyApp.ah.send(httpRequest);
     }
 
 

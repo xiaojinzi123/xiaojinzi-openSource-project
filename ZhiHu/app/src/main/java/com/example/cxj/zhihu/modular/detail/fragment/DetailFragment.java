@@ -20,12 +20,14 @@ import com.example.cxj.zhihu.modular.detail.view.MyScrollView;
 
 import xiaojinzi.EBus.EBus;
 import xiaojinzi.activity.fragment.BaseViewPagerFragment;
-import xiaojinzi.annotation.Injection;
+
 import xiaojinzi.base.android.os.ScreenUtils;
 import xiaojinzi.base.android.os.SystemUtil;
 import xiaojinzi.imageLoad.ImageLoad;
 import xiaojinzi.json.android.JsonUtil;
-import xiaojinzi.net.adapter.BaseDataHandlerAdapter;
+import xiaojinzi.net.adapter.ResponseHandlerAdapter;
+import xiaojinzi.net.filter.PdHttpRequest;
+import xiaojinzi.viewAnnotation.Injection;
 
 
 /**
@@ -128,12 +130,15 @@ public class DetailFragment extends BaseViewPagerFragment {
     @Override
     public void initData() {
 
+        //加载样式
         loadStyle();
 
         //根据故事id加载故事的详情
-        MyApp.ah.get(Constant.Url.detailAct.detailStoryUrl + storyId, new BaseDataHandlerAdapter() {
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.detailAct.detailStoryUrl + storyId);
+
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter() {
             @Override
-            public void handler(String data) throws Exception {
+            public void handler(String data, Object[] p) throws Exception {
                 //转化json数据为故事详情的实体对象
                 detailStory = JsonUtil.createObjectFromJson(DetailStory.class, data);
                 if (detailStory.getImage() != null && !"".equals(detailStory.getImage())) {
@@ -153,7 +158,7 @@ public class DetailFragment extends BaseViewPagerFragment {
                 settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                 String webData = codePrefixOne +
                         "*{margin:0px;padding:0px;color:" + MyApp.skin.detailFragmentSkin.getWebViewTextColor() +
-                        ";}body{word-wrap:break-word;font-family:Arial;width:" + ScreenUtils.getScreenWidth(context) + "px;}" +
+                        ";}body{word-wrap:break-word;font-family:Arial;width:" + screenWidth + "px;}" +
                         codePrefixTwo + jsCodeOne
                         + codePrefixThree + detailStory.getBody() + codeSubfix;
                 myWebView.loadDataWithBaseURL(null, webData, "text/html", "UTF-8", null);
@@ -162,11 +167,12 @@ public class DetailFragment extends BaseViewPagerFragment {
             }
 
             @Override
-            public void error(Exception e) {
+            public void error(Exception e, Object[] p) {
                 closeDialog();
             }
         });
 
+        MyApp.ah.send(httpRequest);
 
     }
 
@@ -211,19 +217,21 @@ public class DetailFragment extends BaseViewPagerFragment {
      */
     private void initExtraInfo() {
         //获取详情页额外的信息,比如点赞数目,评论数量
-        MyApp.ah.getWithoutJsonCache(Constant.Url.detailAct.extraStoryInfoUrl + storyId, new BaseDataHandlerAdapter() {
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.detailAct.extraStoryInfoUrl + storyId);
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter() {
             @Override
-            public void handler(String data) throws Exception {
+            public void handler(String data, Object[] p) throws Exception {
                 storyExtraInfo = JsonUtil.createObjectFromJson(StoryExtraInfo.class, data);
                 //通知数据加载完毕
                 notifyLoadDataComplete();
             }
 
             @Override
-            public void error(Exception e) {
+            public void error(Exception e, Object[] p) {
                 closeDialog();
             }
         });
+        MyApp.ah.send(httpRequest);
     }
 
 

@@ -10,9 +10,10 @@ import com.example.cxj.zhihu.modular.skin.ui.OnlineSkinActivity;
 
 import xiaojinzi.EBus.EBus;
 import xiaojinzi.activity.fragment.BaseViewPagerFragment;
-import xiaojinzi.annotation.Injection;
+
 import xiaojinzi.imageLoad.ImageLoad;
 import xiaojinzi.view.nineImage.NineImageView;
+import xiaojinzi.viewAnnotation.Injection;
 
 
 /**

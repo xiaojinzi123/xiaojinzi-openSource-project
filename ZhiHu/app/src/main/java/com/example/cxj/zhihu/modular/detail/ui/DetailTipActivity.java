@@ -9,10 +9,11 @@ import com.example.cxj.zhihu.R;
 import com.example.cxj.zhihu.config.Constant;
 
 import xiaojinzi.activity.BaseActivity;
-import xiaojinzi.animation.AlphaAnimationUtil;
-import xiaojinzi.animation.adapter.AnimationListenerAdapter;
-import xiaojinzi.annotation.Injection;
+
 import xiaojinzi.base.android.store.SPUtil;
+import xiaojinzi.viewAnimation.AlphaAnimationUtil;
+import xiaojinzi.viewAnimation.adapter.AnimationListenerAdapter;
+import xiaojinzi.viewAnnotation.Injection;
 
 
 public class DetailTipActivity extends BaseActivity {

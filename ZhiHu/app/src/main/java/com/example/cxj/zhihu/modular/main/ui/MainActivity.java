@@ -32,14 +32,17 @@ import java.util.List;
 
 import xiaojinzi.EBus.EBus;
 import xiaojinzi.activity.BaseFragmentActivity;
-import xiaojinzi.annotation.Injection;
+
 import xiaojinzi.base.android.activity.ActivityUtil;
 import xiaojinzi.base.android.os.T;
 import xiaojinzi.base.android.store.SPUtil;
 import xiaojinzi.json.android.JsonUtil;
-import xiaojinzi.net.adapter.BaseDataHandlerAdapter;
+
+import xiaojinzi.net.adapter.ResponseHandlerAdapter;
+import xiaojinzi.net.filter.PdHttpRequest;
 import xiaojinzi.view.popupMenu.SmartMenu;
 import xiaojinzi.view.scaleSlideMenu.ScaleSlideMenu;
+import xiaojinzi.viewAnnotation.Injection;
 
 
 /**
@@ -132,9 +135,10 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
     private void loadLeftMenuData() {
 
         //获取菜单中的主题日报的列表
-        MyApp.ah.getWithoutJsonCache(Constant.Url.MainAct.themesListUrl, new BaseDataHandlerAdapter() {
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.MainAct.themesListUrl);
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter(){
             @Override
-            public void handler(String data) throws Exception {
+            public void handler(String data, Object[] p) throws Exception {
                 //转化json数据为实体对象
                 themeList = JsonUtil.createObjectFromJson(ThemeList.class, data);
                 //创建菜单的适配器
@@ -144,11 +148,8 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
                 //设置左边listview的适配器
                 lv_themes.setAdapter(adapter);
             }
-
-            @Override
-            public void error(Exception e) {
-            }
         });
+        MyApp.ah.send(httpRequest);
     }
 
     /**
@@ -341,8 +342,8 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         boolean b1 = super.onKeyDown(keyCode, event);
         boolean b2 = true;
-        pressBackButtonCount++;
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            pressBackButtonCount++;
             if (ssm.isMenuOpen()) {
                 ssm.closeMenu();
 //                drawerLayout.closeDrawer(Gravity.LEFT);
@@ -367,8 +368,10 @@ public class MainActivity extends BaseFragmentActivity implements SmartMenu.OnMe
                 }).start();
                 b2 = false;
             }
+        }else if(keyCode == KeyEvent.KEYCODE_MENU){
+            sm.openMenu();
         }
-        return b1 && b2;
+        return b2;
     }
 
     /**

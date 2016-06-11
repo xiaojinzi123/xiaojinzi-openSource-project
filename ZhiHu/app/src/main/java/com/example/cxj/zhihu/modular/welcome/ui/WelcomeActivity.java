@@ -18,14 +18,16 @@ import com.example.cxj.zhihu.modular.welcome.entity.StartImage;
 import java.util.Random;
 
 import xiaojinzi.activity.BaseActivity;
-import xiaojinzi.animation.AlphaAnimationUtil;
-import xiaojinzi.animation.ScaleAnimationUtil;
-import xiaojinzi.animation.adapter.AnimationListenerAdapter;
-import xiaojinzi.annotation.Injection;
+
 import xiaojinzi.base.android.activity.ActivityUtil;
 import xiaojinzi.imageLoad.ImageLoad;
 import xiaojinzi.json.android.JsonUtil;
-import xiaojinzi.net.adapter.BaseDataHandlerAdapter;
+import xiaojinzi.net.adapter.ResponseHandlerAdapter;
+import xiaojinzi.net.filter.PdHttpRequest;
+import xiaojinzi.viewAnimation.AlphaAnimationUtil;
+import xiaojinzi.viewAnimation.ScaleAnimationUtil;
+import xiaojinzi.viewAnimation.adapter.AnimationListenerAdapter;
+import xiaojinzi.viewAnnotation.Injection;
 
 
 /**
@@ -81,9 +83,10 @@ public class WelcomeActivity extends BaseActivity {
     public void initData() {
 
         //获取启动图片的信息
-        MyApp.ah.getWithoutJsonCache(Constant.Url.WelcomeAct.startImage, new BaseDataHandlerAdapter() {
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.WelcomeAct.startImage);
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter() {
             @Override
-            public void handler(String data) throws Exception {
+            public void handler(String data, Object[] p) throws Exception {
                 //完成json数据和实体对象的转化
                 StartImage startImage = JsonUtil.createObjectFromJson(StartImage.class, data);
                 //加载启动图片,并监听
@@ -96,10 +99,11 @@ public class WelcomeActivity extends BaseActivity {
             }
 
             @Override
-            public void error(Exception e) {
+            public void error(Exception e, Object[] p) {
                 scale();
             }
         });
+        MyApp.ah.send(httpRequest);
     }
 
     /**

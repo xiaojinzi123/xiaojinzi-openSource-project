@@ -34,17 +34,21 @@ import java.util.Date;
 import java.util.List;
 
 import xiaojinzi.EBus.EBus;
-import xiaojinzi.animation.RotateAnimationUtil;
-import xiaojinzi.annotation.Injection;
-import xiaojinzi.annotation.ViewInjectionUtil;
+
 import xiaojinzi.base.android.activity.ActivityUtil;
 import xiaojinzi.base.android.os.ProgressDialogUtil;
 import xiaojinzi.base.android.os.T;
-import xiaojinzi.base.java.util.DateUtil;
+
+import xiaojinzi.base.java.common.DateUtil;
 import xiaojinzi.imageLoad.ImageLoad;
 import xiaojinzi.json.android.JsonUtil;
-import xiaojinzi.net.adapter.BaseDataHandlerAdapter;
+
+import xiaojinzi.net.adapter.ResponseHandlerAdapter;
+import xiaojinzi.net.filter.PdHttpRequest;
 import xiaojinzi.view.advView.AdvView;
+import xiaojinzi.viewAnimation.RotateAnimationUtil;
+import xiaojinzi.viewAnnotation.Injection;
+import xiaojinzi.viewAnnotation.ViewInjectionUtil;
 
 
 /**
@@ -266,9 +270,18 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         popupDialog();
 
         //获取最新的数据
-        MyApp.ah.getWithoutJsonCache(Constant.Url.MainAct.latestUrl, new BaseDataHandlerAdapter() {
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.MainAct.latestUrl);
+
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter() {
             @Override
-            public void handler(String data) throws Exception {
+            public void error(Exception e, Object[] p) {
+                //让进度条对话框消失
+                closeDialog();
+                sr.setRefreshing(false);
+            }
+
+            @Override
+            public void handler(String data, Object[] p) throws Exception {
                 //转化json数据为实体对象
                 latestStories = JsonUtil.createObjectFromJson(LatestStories.class, data);
                 Story s = new Story();
@@ -291,14 +304,9 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 closeDialog();
                 sr.setRefreshing(false);
             }
-
-            @Override
-            public void error(Exception e) {
-                //让进度条对话框消失
-                closeDialog();
-                sr.setRefreshing(false);
-            }
         });
+
+        MyApp.ah.send(httpRequest);
     }
 
     /**
@@ -404,9 +412,11 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         popupDialog();
 
         //获取最新的数据
-        MyApp.ah.getWithoutJsonCache(Constant.Url.MainAct.latestUrl, new BaseDataHandlerAdapter() {
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.MainAct.latestUrl);
+
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter() {
             @Override
-            public void handler(String data) throws Exception {
+            public void handler(String data, Object[] p) throws Exception {
                 //转化json数据为实体对象
                 LatestStories tmpLatestStories = JsonUtil.createObjectFromJson(LatestStories.class, data);
                 //更换原有对象中的数据
@@ -426,12 +436,15 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
 
             @Override
-            public void error(Exception e) {
+            public void error(Exception e, Object[] p) {
                 //让进度条对话框消失
                 closeDialog();
                 sr.setRefreshing(false);
             }
         });
+
+        MyApp.ah.send(httpRequest);
+
     }
 
     /**
@@ -445,10 +458,11 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private void getBeforNews() {
         //得到20160122这样子格式的日期
         String date = d.formatDate(new Date(System.currentTimeMillis() - getBeforNewsTimes * DateUtil.DAYTIMEMILLIS));
-        //然后请求网络
-        MyApp.ah.get(Constant.Url.MainAct.beforeNewsUrl + date, new BaseDataHandlerAdapter() {
+        //然后请求网络家在更多
+        PdHttpRequest httpRequest = new PdHttpRequest(Constant.Url.MainAct.beforeNewsUrl + date);
+        httpRequest.setResponseHandler(new ResponseHandlerAdapter() {
             @Override
-            public void handler(String data) throws Exception {
+            public void handler(String data, Object[] p) throws Exception {
                 //转化为实体对象
                 LatestStories tmpLatestStories = JsonUtil.createObjectFromJson(LatestStories.class, data);
                 Story s = new Story();
@@ -464,12 +478,13 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
 
             @Override
-            public void error(Exception e) {
+            public void error(Exception e, Object[] p) {
                 closeDialog();
                 getBeforNewsTimes++;
                 T.showLong(getActivity(), "获取过往数据失败");
             }
         });
+        MyApp.ah.send(httpRequest);
     }
 
     /**

@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Vector;
 
 import xiaojinzi.base.android.log.L;
-import xiaojinzi.base.java.util.ArrayUtil;
-import xiaojinzi.base.java.util.StringUtil;
+import xiaojinzi.base.java.collection.ArrayUtil;
+import xiaojinzi.base.java.common.StringUtil;
 
 
 /**

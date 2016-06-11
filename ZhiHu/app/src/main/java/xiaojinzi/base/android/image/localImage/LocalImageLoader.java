@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 
 import xiaojinzi.base.android.image.ImageUtil;
-import xiaojinzi.base.java.util.ThreadPool;
+import xiaojinzi.base.android.thread.ThreadPool;
 
 /**
  * 本地图片的加载器

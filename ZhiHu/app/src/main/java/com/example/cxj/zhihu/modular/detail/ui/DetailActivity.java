@@ -25,11 +25,12 @@ import java.util.List;
 
 import xiaojinzi.EBus.EBus;
 import xiaojinzi.activity.BaseFragmentActivity;
-import xiaojinzi.annotation.Injection;
+
 import xiaojinzi.base.android.activity.ActivityUtil;
 import xiaojinzi.base.android.log.L;
 import xiaojinzi.base.android.os.T;
 import xiaojinzi.base.android.store.SPUtil;
+import xiaojinzi.viewAnnotation.Injection;
 
 
 /**

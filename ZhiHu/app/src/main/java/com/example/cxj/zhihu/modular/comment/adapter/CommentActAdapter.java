@@ -19,7 +19,8 @@ import java.util.List;
 import xiaojinzi.base.android.adapter.listView.CommonAdapter;
 import xiaojinzi.base.android.adapter.listView.CommonViewHolder;
 import xiaojinzi.base.android.os.ScreenUtils;
-import xiaojinzi.base.java.util.DateUtil;
+
+import xiaojinzi.base.java.common.DateUtil;
 import xiaojinzi.imageLoad.ImageLoad;
 
 

@@ -1,23 +1,26 @@
 package xiaojinzi.net;
 
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
-import android.content.Context;
+
 import android.os.Handler;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.List;
+
 import java.util.Vector;
 
 import xiaojinzi.base.android.common.StringUtil;
 import xiaojinzi.base.android.log.L;
-import xiaojinzi.base.java.util.FileUtil;
-import xiaojinzi.base.java.util.InputStreamUtil;
-import xiaojinzi.net.db.JsonCache;
-import xiaojinzi.net.db.JsonCacheDao;
+
+import xiaojinzi.base.android.store.FileUtil;
+import xiaojinzi.base.android.thread.ThreadPool;
+import xiaojinzi.base.java.io.InputStreamUtil;
+import xiaojinzi.base.java.net.Http;
+import xiaojinzi.base.java.net.HttpRequest;
+import xiaojinzi.base.java.net.ResultInfo;
+import xiaojinzi.base.java.net.handler.ResponseHandler;
 import xiaojinzi.net.filter.NetFilter;
+import xiaojinzi.net.filter.PdHttpRequest;
 
 
 /**
@@ -28,11 +31,10 @@ import xiaojinzi.net.filter.NetFilter;
  * 访问失败的时候,根据访问的网址去数据库检索,如果有, 则返回数据库中的信息,轻松实现没有网络<br>
  * 的情况的缓存数据
  *
- * @param <Parameter>
  * @author cxj QQ:347837667
  * @date 2015年12月9日
  */
-public class AsyncHttp<Parameter> implements Runnable {
+public class AsyncHttp implements Runnable {
 
     /**
      * 类的标识
@@ -51,146 +53,30 @@ public class AsyncHttp<Parameter> implements Runnable {
     public static final String CHARENCODING = "UTF-8";
 
     /**
-     * 本地文件的前缀标识
-     */
-    public static final String LOCALFILEURLPREFIX = "file:";
-
-    /**
      * 网络请求的过滤器
      */
     private static Vector<NetFilter> netFilters = new Vector<NetFilter>();
-
-    /**
-     * 如果使用缓存机制,这个数据库的操作对象就会被用到
-     */
-    private static JsonCacheDao cacheDao;
-
-    /**
-     * 最大的线程数量
-     */
-    private int maxThreadNumber = 5;
-
-    /**
-     * 当前的线程个数
-     */
-    private int currentThreadNumber = 0;
 
     public AsyncHttp() {
     }
 
     /**
-     * @param maxThreadNumber 线程最大的数量
-     */
-    public AsyncHttp(int maxThreadNumber) {
-        this.maxThreadNumber = maxThreadNumber;
-    }
-
-    /**
-     * 设置缓存的拦截器
-     */
-    public static void initCacheJson(Context context) {
-
-        cacheDao = new JsonCacheDao(context);
-
-        // 添加一个json数据的拦截器
-        netFilters.add(new NetFilter() {
-            @Override
-            public boolean resultInfoReturn(ResultInfo<?> resultInfo) { // 数据返回,但是还没有处理的时候
-
-                // 获取请求的网址
-                String url = resultInfo.url;
-
-                // 如果请求的数据是字符串
-                if (resultInfo.responseDataStyle == BaseDataHandler.STRINGDATA && resultInfo.loadDataType == ResultInfo.NET) {
-
-                    // 根据这个url进行数据库的查询
-                    List<JsonCache> list = cacheDao.selectByUrl(url);
-
-                    // 如果有记录,就拿到json,塞到结果的对象中
-                    if (list == null || list.size() == 0) { //网络访问成功之后,如果数据库中没有,那么就插入,如果有,那么更新一下
-                        cacheDao.insert(new JsonCache(null, url, (String) resultInfo.result));
-                        if (isLog)
-                            L.s(TAG, "缓存成功:" + url);
-                    } else {
-                        JsonCache jsonCache = list.get(0);
-                        jsonCache.setJson((String) resultInfo.result);
-                        cacheDao.update(jsonCache);
-                    }
-
-                } else if (resultInfo.responseDataStyle == BaseDataHandler.ERRORDATA && resultInfo.netTaskResponseDataStyle == BaseDataHandler.STRINGDATA) { // 如果是请求错误的情况,并且原来是希望请求字符串类型的数据的
-
-                    // 根据这个url进行数据库的查询
-                    List<JsonCache> list = cacheDao.selectByUrl(url);
-
-                    // 如果有记录,就拿到json,塞到结果的对象中
-                    if (list != null && list.size() != 0) {
-                        resultInfo.result = list.get(0).getJson();
-                        resultInfo.responseDataStyle = BaseDataHandler.STRINGDATA;
-                        if (isLog)
-                            L.s(TAG, "访问网络失败,但是库中有缓存,使用了缓存数据:" + url);
-                    }
-                }
-
-                return false;
-            }
-
-            @Override
-            public boolean netTaskPrepare(NetTask<?> netTask) { // 请求准备的时候
-                return false;
-            }
-
-            @Override
-            public boolean netTaskBegin(NetTask<?> netTask, ResultInfo<?> resultInfo) { // 结果对象创建,准备取请求数据,装载到结果对象里面之前
-
-                // 获取要请求的网址
-                String url = netTask.url;
-
-                // 如果请求的数据是字符串,并且是使用缓存的
-                if (netTask.responseDataStyle == BaseDataHandler.STRINGDATA && netTask.isUseJsonCache) {
-
-                    // 根据这个url进行数据库的查询
-                    List<JsonCache> list = cacheDao.selectByUrl(url);
-
-                    // 如果有记录,就拿到json,塞到结果的对象中
-                    if (list != null && list.size() > 0) {
-                        JsonCache jsonCache = list.get(0);
-                        resultInfo.result = jsonCache.getJson();
-                        resultInfo.loadDataType = ResultInfo.LOCAL;
-
-                        if (isLog)
-                            L.s(TAG, "拦截一次请求,数据库中存在:" + url);
-
-                        // 返回true,表示拦截这次的请求
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        });
-    }
-
-    /**
      * 执行的任务对象集合
      */
-    private Vector<NetTask<Parameter>> netTasks = new Vector<NetTask<Parameter>>();
+    private Vector<PdHttpRequest> netTasks = new Vector<PdHttpRequest>();
 
     /**
      * 结果信息对象集合
      */
-    private Vector<ResultInfo<Parameter>> resultInfos = new Vector<ResultInfo<Parameter>>();
+    private Vector<ResultInfo> resultInfos = new Vector<ResultInfo>();
 
-    @SuppressLint("HandlerLeak")
     private Handler h = new Handler() {
         public void handleMessage(android.os.Message msg) {
 
-            //一个线程消亡
-            currentThreadNumber--;
-
-            startThread();
-
             // 取出一个结果
-            ResultInfo<Parameter> resultInfo = resultInfos.remove(0);
+            ResultInfo resultInfo = resultInfos.remove(0);
+
+            HttpRequest httpRequest = resultInfo.httpRequest;
 
             for (int i = 0; i < netFilters.size(); i++) {
                 NetFilter filter = netFilters.get(i);
@@ -204,61 +90,39 @@ public class AsyncHttp<Parameter> implements Runnable {
                 }
             }
 
-            if (resultInfo.dataHandler == null && resultInfo.parameterDataHandler == null) {
+            //拿到请求结果的处理器
+            ResponseHandler parameterDataHandler = resultInfo.httpRequest.getResponseHandler();
+
+            if (parameterDataHandler == null && parameterDataHandler == null) {
                 return;
             }
 
             // 拿到返回数据的类型
-            int responseDataStyle = resultInfo.responseDataStyle;
+            int responseDataStyle = resultInfo.httpRequest.getResponseDataStyle();
 
-            try {
-                if (responseDataStyle == BaseDataHandler.INPUTSTREAMDATA) {
+            try { //尝试数据处理
+                if (responseDataStyle == ResponseHandler.INPUTSTREAMDATA) {
                     InputStream is = (InputStream) resultInfo.result;
-                    if (resultInfo.dataHandler == null) {
-                        resultInfo.parameterDataHandler.handler(is, resultInfo.parameters);
-                    } else {
-                        resultInfo.dataHandler.handler(is);
-                    }
-                } else if (responseDataStyle == BaseDataHandler.BYTEARRAYDATA) {
+                    parameterDataHandler.handler(is, httpRequest.getParameters());
+                } else if (responseDataStyle == ResponseHandler.BYTEARRAYDATA) {
                     byte[] bt = (byte[]) resultInfo.result;
-                    if (resultInfo.dataHandler == null) {
-                        resultInfo.parameterDataHandler.handler(bt, resultInfo.parameters);
-                    } else {
-                        resultInfo.dataHandler.handler(bt);
-                    }
-                } else if (responseDataStyle == BaseDataHandler.STRINGDATA) {
+                    parameterDataHandler.handler(bt, httpRequest.getParameters());
+                } else if (responseDataStyle == ResponseHandler.STRINGDATA) {
                     String content = (String) resultInfo.result;
-                    if (resultInfo.dataHandler == null) {
-                        resultInfo.parameterDataHandler.handler(content, resultInfo.parameters);
-                    } else {
-                        resultInfo.dataHandler.handler(content);
-                    }
-                } else if (responseDataStyle == BaseDataHandler.FILEDATA) {
+                    parameterDataHandler.handler(content, httpRequest.getParameters());
+                } else if (responseDataStyle == ResponseHandler.FILEDATA) {
                     File f = (File) resultInfo.result;
-                    if (resultInfo.dataHandler == null) {
-                        resultInfo.parameterDataHandler.handler(f, resultInfo.parameters);
-                    } else {
-                        resultInfo.dataHandler.handler(f);
-                    }
-                } else if (responseDataStyle == BaseDataHandler.ERRORDATA) {
+                    parameterDataHandler.handler(f, httpRequest.getParameters());
+                } else if (responseDataStyle == ResponseHandler.ERRORDATA) {
                     Exception e = (Exception) resultInfo.result;
-                    if (resultInfo.dataHandler == null) {
-                        resultInfo.parameterDataHandler.error(e, resultInfo.parameters);
-                    } else {
-                        resultInfo.dataHandler.error(e);
-                    }
+                    parameterDataHandler.error(e, httpRequest.getParameters());
                 }
             } catch (Exception e) {
-
                 if (isLog) {
-                    L.s(TAG, "挂了");
+                    L.s(TAG, "处理数据挂了");
                     e.printStackTrace();
                 }
-                if (resultInfo.dataHandler == null) {
-                    resultInfo.parameterDataHandler.error(e, resultInfo.parameters);
-                } else {
-                    resultInfo.dataHandler.error(e);
-                }
+                parameterDataHandler.error(e, httpRequest.getParameters());
             }
 
 
@@ -276,387 +140,24 @@ public class AsyncHttp<Parameter> implements Runnable {
         netFilters.add(netFilter);
     }
 
+
     /**
-     * get请求封装,返回字符串,默认使用json缓存
+     * 发送一个请求出去
      *
-     * @param spec        请求的网址
-     * @param dataHandler {@link BaseDataHandler}
-     *                    数据请求后回调的接口,可以为null,这样子框架认为只是为了提交数据,不为了对返回的数据做处理
+     * @param netTask
      */
-    public void get(String spec, BaseDataHandler dataHandler) {
-        get(spec, BaseDataHandler.STRINGDATA, dataHandler);
+    public void send(PdHttpRequest netTask) {
+        netTasks.add(netTask);
+        ThreadPool.getInstance().invoke(this);
+//        new Thread(this).start();
     }
 
-    /**
-     * get请求封装,返回字符串,不使用json缓存
-     *
-     * @param spec        请求的网址
-     * @param dataHandler {@link BaseDataHandler}
-     *                    数据请求后回调的接口,可以为null,这样子框架认为只是为了提交数据,不为了对返回的数据做处理
-     */
-    public void getWithoutJsonCache(String spec, BaseDataHandler dataHandler) {
-        getWithoutJsonCache(spec, BaseDataHandler.STRINGDATA, dataHandler);
-    }
-
-    /**
-     * get请求封装
-     *
-     * @param spec              请求的网址
-     * @param responseDataStyle 响应的数据的形式 {@link BaseDataHandler#INPUTSTREAMDATA } or
-     *                          {@link BaseDataHandler#BYTEARRAYDATA}or
-     *                          {@link BaseDataHandler#STRINGDATA}or
-     *                          {@link BaseDataHandler#FILEDATA} or
-     *                          {@link BaseDataHandler#ERRORDATA}
-     * @param dataHandler       {@link BaseDataHandler}
-     *                          数据请求后回调的接口,可以为null,这样子框架认为只是为了提交数据,不为了对返回的数据做处理
-     */
-    public void get(String spec, int responseDataStyle, BaseDataHandler dataHandler) {
-        get(spec, responseDataStyle, dataHandler, null, true);
-    }
-
-    /**
-     * get请求封装,不使用json缓存
-     *
-     * @param spec              请求的网址
-     * @param responseDataStyle 响应的数据的形式 {@link BaseDataHandler#INPUTSTREAMDATA } or
-     *                          {@link BaseDataHandler#BYTEARRAYDATA}or
-     *                          {@link BaseDataHandler#STRINGDATA}or
-     *                          {@link BaseDataHandler#FILEDATA} or
-     *                          {@link BaseDataHandler#ERRORDATA}
-     * @param dataHandler       {@link BaseDataHandler}
-     *                          数据请求后回调的接口,可以为null,这样子框架认为只是为了提交数据,不为了对返回的数据做处理
-     */
-    public void getWithoutJsonCache(String spec, int responseDataStyle, BaseDataHandler dataHandler) {
-        get(spec, responseDataStyle, dataHandler, null, false);
-    }
-
-    /**
-     * get请求封装
-     *
-     * @param spec              请求的网址
-     * @param responseDataStyle 响应的数据的形式 {@link BaseDataHandler#INPUTSTREAMDATA } or
-     *                          {@link BaseDataHandler#BYTEARRAYDATA}or
-     *                          {@link BaseDataHandler#STRINGDATA}or
-     *                          {@link BaseDataHandler#FILEDATA} or
-     *                          {@link BaseDataHandler#ERRORDATA}
-     * @param dataHandler       {@link BaseDataHandler}
-     *                          数据请求后回调的接口,可以为null,这样子框架认为只是为了提交数据,不为了对返回的数据做处理
-     * @param pd                进度条对话框
-     */
-    public void get(String spec, int responseDataStyle, BaseDataHandler dataHandler, ProgressDialog pd,
-                    boolean isUseJsonCache) {
-
-        // 添加一个网络任务到集合中
-        netTasks.add(new NetTask<Parameter>(spec, responseDataStyle, dataHandler, pd, isUseJsonCache));
-
-        startThread();
-
-    }
-
-    /**
-     * get请求封装,可以传递数据,返回字符串,默认使用json数据的缓存
-     *
-     * @param spec                 请求的网址
-     * @param parameterDataHandler {@link ParameterHandler}
-     *                             数据请求后回调的接口,可以为null,这样子框架认为只是为了提交数据,不为了对返回的数据做处理
-     * @param parameters           传递的参数
-     */
-    public void get(String spec, ParameterHandler<Parameter> parameterDataHandler, Parameter... parameters) {
-        get(spec, ParameterHandler.STRINGDATA, parameterDataHandler, parameters);
-    }
-
-    /**
-     * get请求封装,可以传递数据,返回字符串,不使用json数据的缓存
-     *
-     * @param spec                 请求的网址
-     * @param parameterDataHandler {@link ParameterHandler}
-     *                             数据请求后回调的接口,可以为null,这样子框架认为只是为了提交数据,不为了对返回的数据做处理
-     * @param parameters           传递的参数
-     */
-    public void getWithoutJsonCache(String spec, ParameterHandler<Parameter> parameterDataHandler,
-                                    Parameter... parameters) {
-        getWithoutJsonCache(spec, ParameterHandler.STRINGDATA, parameterDataHandler, parameters);
-    }
-
-    /**
-     * get请求封装,可以传递数据,<br>
-     * 如果是请求的是json数据,默认使用json缓存
-     *
-     * @param spec                 请求的网址
-     * @param responseDataStyle    响应的数据的形式 {@link ParameterHandler#INPUTSTREAMDATA } or
-     *                             {@link ParameterHandler#BYTEARRAYDATA}or
-     *                             {@link ParameterHandler#STRINGDATA}or
-     *                             {@link ParameterHandler#FILEDATA} or
-     *                             {@link ParameterHandler#ERRORDATA}
-     * @param parameterDataHandler {@link ParameterHandler}
-     *                             数据请求后回调的接口,可以为null,这样子框架认为只是为了提交数据,不为了对返回的数据做处理
-     * @param parameters           传递的参数
-     */
-    public void get(String spec, int responseDataStyle, ParameterHandler<Parameter> parameterDataHandler,
-                    Parameter... parameters) {
-        get(spec, responseDataStyle, parameterDataHandler, null, true, parameters);
-    }
-
-    /**
-     * get请求封装,可以传递数据,<br>
-     * 如果是请求的是json数据,不使用json缓存
-     *
-     * @param spec                 请求的网址
-     * @param responseDataStyle    响应的数据的形式 {@link ParameterHandler#INPUTSTREAMDATA } or
-     *                             {@link ParameterHandler#BYTEARRAYDATA}or
-     *                             {@link ParameterHandler#STRINGDATA}or
-     *                             {@link ParameterHandler#FILEDATA} or
-     *                             {@link ParameterHandler#ERRORDATA}
-     * @param parameterDataHandler {@link ParameterHandler}
-     *                             数据请求后回调的接口,可以为null,这样子框架认为只是为了提交数据,不为了对返回的数据做处理
-     * @param parameters           传递的参数
-     */
-    public void getWithoutJsonCache(String spec, int responseDataStyle,
-                                    ParameterHandler<Parameter> parameterDataHandler, Parameter... parameters) {
-        get(spec, responseDataStyle, parameterDataHandler, null, false, parameters);
-    }
-
-    /**
-     * get请求封装,可以传递数据
-     *
-     * @param spec                 请求的网址
-     * @param responseDataStyle    响应的数据的形式 {@link ParameterHandler#INPUTSTREAMDATA } or
-     *                             {@link ParameterHandler#BYTEARRAYDATA}or
-     *                             {@link ParameterHandler#STRINGDATA}or
-     *                             {@link ParameterHandler#FILEDATA} or
-     *                             {@link ParameterHandler#ERRORDATA}
-     * @param parameterDataHandler {@link ParameterHandler}
-     *                             数据请求后回调的接口,可以为null,这样子框架认为只是为了提交数据,不为了对返回的数据做处理
-     * @param pd                   进度条对话框
-     * @param parameters           传递的参数
-     */
-    public void get(String spec, int responseDataStyle, ParameterHandler<Parameter> parameterDataHandler,
-                    final ProgressDialog pd, boolean isUseJsonCache, Parameter... parameters) {
-
-        // 添加一个网络任务到集合中
-        netTasks.add(
-                new NetTask<Parameter>(spec, responseDataStyle, parameterDataHandler, pd, isUseJsonCache, parameters));
-
-        startThread();
-
-    }
-
-    /**
-     * 开启线程
-     */
-    private void startThread() {
-        if (currentThreadNumber < maxThreadNumber && netTasks.size() > 0) { //如果线程还没有满,那就开启
-            currentThreadNumber++;
-            new Thread(this).start();
-        }
-    }
-
-    /**
-     * 可以传递参数的回调接口
-     *
-     * @param <Parameter>
-     * @author cxj QQ:347837667
-     * @date 2015年12月8日
-     */
-    public interface ParameterHandler<Parameter> {
-
-        /**
-         * 没有任何事情发生
-         */
-        public static final int NOTHING = -2;
-
-        /**
-         * 错误的形式
-         */
-        public static final int ERRORDATA = -1;
-
-        /**
-         * 流的形式
-         */
-        public static final int INPUTSTREAMDATA = 0;
-
-        /**
-         * 字节数组的形式
-         */
-        public static final int BYTEARRAYDATA = 1;
-
-        /**
-         * 字符串形式
-         */
-        public static final int STRINGDATA = 2;
-
-        /**
-         * 文件的形式
-         */
-        public static final int FILEDATA = 3;
-
-        /**
-         * 返回的是字符串的时候调用
-         *
-         * @param data
-         */
-        public void handler(String data, Parameter... p) throws Exception;
-
-        /**
-         * 返回的是输入流的时候调用
-         *
-         * @param is
-         */
-        public void handler(InputStream is, Parameter... p) throws Exception;
-
-        /**
-         * 返回的是字节数组的时候调用
-         *
-         * @param bt
-         */
-        public void handler(byte[] bt, Parameter... p) throws Exception;
-
-        /**
-         * 当请求的是文件的时候,这个方法必须实现,并且返回一个文件对象,框架会把数据存放到返回的这个文件对象中
-         *
-         * @return
-         */
-        public File getFile() throws Exception;
-
-        ;
-
-        /**
-         * 当文件存放完毕,调用这个方法
-         *
-         * @param f
-         */
-        public void handler(File f, Parameter... p) throws Exception;
-
-        ;
-
-        /**
-         * 访问错误的时候调用
-         *
-         * @param e
-         */
-        public void error(Exception e, Parameter... p);
-    }
-
-    /**
-     * 数据处理的接口,这个是上面的接口进行了升级,可以抛出异常<br>
-     * 为了以前的代码还能运行,此接口是过时的接口的父类
-     *
-     * @author cxj
-     */
-    public interface BaseDataHandler {
-        /**
-         * 没有任何事情发生
-         */
-        public static final int NOTHING = -2;
-
-        /**
-         * 错误的形式
-         */
-        public static final int ERRORDATA = -1;
-
-        /**
-         * 流的形式
-         */
-        public static final int INPUTSTREAMDATA = 0;
-
-        /**
-         * 字节数组的形式
-         */
-        public static final int BYTEARRAYDATA = 1;
-
-        /**
-         * 字符串形式
-         */
-        public static final int STRINGDATA = 2;
-
-        /**
-         * 文件的形式
-         */
-        public static final int FILEDATA = 3;
-
-        /**
-         * 返回的是字符串的时候调用
-         *
-         * @param data
-         */
-        public void handler(String data) throws Exception;
-
-        /**
-         * 返回的是输入流的时候调用
-         *
-         * @param is
-         */
-        public void handler(InputStream is) throws Exception;
-
-        /**
-         * 返回的是字节数组的时候调用
-         *
-         * @param bt
-         */
-        public void handler(byte[] bt) throws Exception;
-
-        /**
-         * 当请求的是文件的时候,这个方法必须实现,并且返回一个文件对象,框架会把数据存放到返回的这个文件对象中
-         *
-         * @return
-         */
-        public File getFile() throws Exception;
-
-        ;
-
-        /**
-         * 当文件存放完毕,调用这个方法
-         *
-         * @param f
-         */
-        public void handler(File f) throws Exception;
-
-        ;
-
-        /**
-         * 访问错误的时候调用
-         *
-         * @param e
-         */
-        public void error(Exception e);
-    }
-
-    /**
-     * 数据处理的接口
-     * <p/>
-     * Be replaced by BaseDataHandler ,see {@link BaseDataHandler}
-     *
-     * @author xiaojinzi
-     */
-    @Deprecated
-    public interface DataHandler extends BaseDataHandler {
-
-        @Override
-        void handler(String data);
-
-        @Override
-        void handler(InputStream is);
-
-        @Override
-        void handler(byte[] bt);
-
-        @Override
-        File getFile();
-
-        @Override
-        void handler(File f);
-
-    }
 
     @Override
     public void run() {
 
-        if (netTasks.size() == 0) {
-            return;
-        }
-
         // 拿到一个任务
-        NetTask<Parameter> netTask = netTasks.remove(0);
+        PdHttpRequest netTask = netTasks.remove(0);
 
         // 网络任务准备请求的时候的拦截
         for (int i = 0; i < netFilters.size(); i++) {
@@ -672,20 +173,12 @@ public class AsyncHttp<Parameter> implements Runnable {
         }
 
         // 创建一个结果对象
-        ResultInfo<Parameter> info = new ResultInfo<Parameter>();
+        ResultInfo info = new ResultInfo();
 
-        // 回调接口
-        info.dataHandler = netTask.dataHandler;
-        info.parameterDataHandler = netTask.parameterDataHandler;
-        info.parameters = netTask.parameters;
-        info.url = netTask.url;
-        info.isUseJsonCache = netTask.isUseJsonCache;
+        // 保存请求对象到结果对象中
+        info.httpRequest = netTask;
 
         try {
-            // 存储数据的类型
-            info.responseDataStyle = netTask.responseDataStyle;
-            info.netTaskResponseDataStyle = netTask.responseDataStyle;
-
             // 网络任务开始请求的时候的拦截
             for (int i = 0; i < netFilters.size(); i++) {
                 NetFilter filter = netFilters.get(i);
@@ -702,46 +195,50 @@ public class AsyncHttp<Parameter> implements Runnable {
                 }
             }
 
+            //生命一个输入流
             InputStream is;
 
-            //如果是一个本地的文件
-            if (netTask.url.startsWith(LOCALFILEURLPREFIX)) {
-                File f = new File(netTask.url.substring(LOCALFILEURLPREFIX.length()));
+            //如果是一个本地的文件,也就是路径前面是"file:"打头的
+            if (netTask.getRequesutUrl().startsWith(HttpRequest.LOCALFILEURLPREFIX)) {
+                File f = new File(netTask.getRequesutUrl().substring(HttpRequest.LOCALFILEURLPREFIX.length()));
                 if (f.isFile()) {
                     is = new FileInputStream(f);
                 } else {
                     // 获取一个网络请求返回的输入流
-                    is = Http.getInputStream(netTask.url);
+                    is = Http.sendRequest(netTask);
                 }
             } else {
                 // 获取一个网络请求返回的输入流
-                is = Http.getInputStream(netTask.url);
+                is = Http.sendRequest(netTask);
             }
 
-            if (netTask.pd != null) {
-                netTask.pd.setMax(Http.getContentLength(Thread.currentThread().getId()));
+            //获取响应的长度
+            Integer contentLength = Http.getContentLength(Thread.currentThread().getId());
+
+            if (netTask.getPd() != null) {
+                netTask.getPd().setMax(contentLength);
             }
 
-            switch (netTask.responseDataStyle) {
+            switch (netTask.getResponseDataStyle()) {
 
-                case BaseDataHandler.INPUTSTREAMDATA: // 流的类型
+                case ResponseHandler.INPUTSTREAMDATA: // 流的类型
                     // 存储结果
                     info.result = is;
                     break;
 
-                case BaseDataHandler.BYTEARRAYDATA: // 字节数组的类型
+                case ResponseHandler.BYTEARRAYDATA: // 字节数组的类型
                     byte[] arr = InputStreamUtil.getByteArr(is);
                     info.result = arr;
                     break;
 
-                case BaseDataHandler.STRINGDATA: // 字符串的类型
+                case ResponseHandler.STRINGDATA: // 字符串的类型
                     // 获取输入流转化后的字符串
-                    String content = StringUtil.isToStr(is, CHARENCODING, netTask.pd);
+                    String content = StringUtil.isToStr(is, CHARENCODING, netTask.getPd());
                     info.result = content;
                     break;
 
-                case BaseDataHandler.FILEDATA: // 文件形式的类型
-                    info.result = FileUtil.isToFile(is, netTask.dataHandler.getFile(), netTask.pd);
+                case ResponseHandler.FILEDATA: // 文件形式的类型
+                    info.result = FileUtil.isToFile(is, netTask.getResponseHandler().getFile(), netTask.getPd());
                     break;
 
             }
@@ -749,7 +246,7 @@ public class AsyncHttp<Parameter> implements Runnable {
         } catch (Exception e) {
             info.result = e;
             // 存储数据的类型
-            info.responseDataStyle = BaseDataHandler.ERRORDATA;
+            info.httpRequest.setResponseDataStyle(ResponseHandler.ERRORDATA);
         }
 
         // 添加返回对象

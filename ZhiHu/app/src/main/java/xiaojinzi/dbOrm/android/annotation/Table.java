@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import xiaojinzi.base.java.net.HttpRequest;
+
 /**
  * 这个注解是用在类上面的,运行的时候有效
  * 
@@ -14,10 +16,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Table {
+
 	/**
 	 * 表的名字
-	 * 
+	 *
 	 * @return
 	 */
 	String value() default "";
+
 }

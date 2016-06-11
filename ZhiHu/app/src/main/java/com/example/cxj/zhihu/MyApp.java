@@ -1,19 +1,28 @@
 package com.example.cxj.zhihu;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 
 import com.example.cxj.zhihu.common.skin.Skin;
 import com.example.cxj.zhihu.config.Constant;
+import com.example.cxj.zhihu.db.json.JsonCache;
+import com.example.cxj.zhihu.db.json.JsonCacheDao;
 import com.example.cxj.zhihu.db.skin.SkinDb;
 import com.example.cxj.zhihu.modular.skin.entity.JsonSkin;
 import com.example.cxj.zhihu.service.AutoChangeSkinService;
 
+import java.util.List;
+
 import xiaojinzi.base.android.store.SPUtil;
+import xiaojinzi.base.java.log.L;
+import xiaojinzi.base.java.net.HttpRequest;
+import xiaojinzi.base.java.net.ResultInfo;
+import xiaojinzi.base.java.net.handler.ResponseHandler;
 import xiaojinzi.net.AsyncHttp;
-import xiaojinzi.net.NetTask;
-import xiaojinzi.net.ResultInfo;
+
 import xiaojinzi.net.filter.NetFilter;
+import xiaojinzi.net.filter.PdHttpRequest;
 
 
 /**
@@ -21,10 +30,12 @@ import xiaojinzi.net.filter.NetFilter;
  */
 public class MyApp extends Application {
 
+    public static final String TAG = "MyApp";
+
     /**
      * 网络请求的框架
      */
-    public static AsyncHttp<Void> ah = null;
+    public static AsyncHttp ah = null;
 
     /**
      * 应用的皮肤
@@ -54,9 +65,10 @@ public class MyApp extends Application {
         //加载轻量级存储里面的数据
         initSpData();
         //初始化对象
-        ah = new AsyncHttp<Void>();
+        ah = new AsyncHttp();
         //初始化json缓存器
         initNetCache();
+        initCacheJson(this);
     }
 
     /**
@@ -95,30 +107,135 @@ public class MyApp extends Application {
      */
     private void initNetCache() {
         //添加网络访问过滤器
-        AsyncHttp.initCacheJson(this);
+//        AsyncHttp.initCacheJson(this);
+//        ah.addNetFilter(new NetFilter() {
+//            @Override
+//            public boolean netTaskPrepare(NetTask<?> netTask) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean netTaskBegin(NetTask<?> netTask, ResultInfo<?> resultInfo) {
+//                if (loadImageModeData == Constant.loadImageWithWifi && isWifiEable == false) {
+//                    String url = netTask.url;
+//                    if (url.toLowerCase().endsWith(".jpg") || url.toLowerCase().endsWith(".png")) {
+//                        resultInfo.loadDataType = AsyncHttp.BaseDataHandler.ERRORDATA;
+//                        return true;
+//                    }
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean resultInfoReturn(ResultInfo<?> resultInfo) {
+//                return false;
+//            }
+//        });
+    }
+
+
+    /**
+     * 设置缓存的拦截器
+     */
+    public static void initCacheJson(Context context) {
+
+        final boolean isLog = false;
+
+        final JsonCacheDao cacheDao = new JsonCacheDao(context);
+        // 添加一个json数据的拦截器
+
         ah.addNetFilter(new NetFilter() {
             @Override
-            public boolean netTaskPrepare(NetTask<?> netTask) {
+            public boolean netTaskPrepare(PdHttpRequest<?> netTask) {
                 return false;
             }
 
             @Override
-            public boolean netTaskBegin(NetTask<?> netTask, ResultInfo<?> resultInfo) {
-                if (loadImageModeData == Constant.loadImageWithWifi && isWifiEable == false) {
-                    String url = netTask.url;
-                    if (url.toLowerCase().endsWith(".jpg") || url.toLowerCase().endsWith(".png")) {
-                        resultInfo.loadDataType = AsyncHttp.BaseDataHandler.ERRORDATA;
-                        return true;
-                    }
-                }
+            public boolean netTaskBegin(PdHttpRequest<?> netTask, ResultInfo<?> resultInfo) {
                 return false;
             }
 
             @Override
             public boolean resultInfoReturn(ResultInfo<?> resultInfo) {
+                // 获取请求的网址
+                String url = resultInfo.httpRequest.getRequesutUrl();
+
+                // 如果请求的数据是字符串
+                if (resultInfo.httpRequest.getResponseDataStyle() == ResponseHandler.STRINGDATA && resultInfo.httpRequest.getLoadDataType() == HttpRequest.NET) {
+
+                    // 根据这个url进行数据库的查询
+                    List<JsonCache> list = cacheDao.selectByUrl(url);
+
+                    // 如果有记录,就拿到json,塞到结果的对象中
+                    if (list == null || list.size() == 0) { //网络访问成功之后,如果数据库中没有,那么就插入,如果有,那么更新一下
+                        cacheDao.insert(new JsonCache(null, url, (String) resultInfo.result));
+                        if (isLog)
+                            L.s(TAG, "缓存成功:" + url);
+                    } else {
+                        JsonCache jsonCache = list.get(0);
+                        jsonCache.setJson((String) resultInfo.result);
+                        cacheDao.update(jsonCache);
+                    }
+
+                } else if (resultInfo.httpRequest.getResponseDataStyle() == ResponseHandler.ERRORDATA && resultInfo.httpRequest.getPreResponseDataStyle() == ResponseHandler.STRINGDATA) { // 如果是请求错误的情况,并且原来是希望请求字符串类型的数据的
+
+                    // 根据这个url进行数据库的查询
+                    List<JsonCache> list = cacheDao.selectByUrl(url);
+
+                    // 如果有记录,就拿到json,塞到结果的对象中
+                    if (list != null && list.size() != 0) {
+                        resultInfo.result = list.get(0).getJson();
+                        resultInfo.httpRequest.setResponseDataStyle(ResponseHandler.STRINGDATA);
+                        if (isLog)
+                            L.s(TAG, "访问网络失败,但是库中有缓存,使用了缓存数据:" + url);
+                    }
+                }
+
                 return false;
             }
         });
+
+//        ah.addNetFilter(new NetFilter() {
+//            @Override
+//            public boolean resultInfoReturn(ResultInfo<?> resultInfo) { // 数据返回,但是还没有处理的时候
+//
+//
+//            }
+//
+//            @Override
+//            public boolean netTaskPrepare(HttpRequest<?> netTask) { // 请求准备的时候
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean netTaskBegin(HttpRequest<?> netTask, ResultInfo<?> resultInfo) { // 结果对象创建,准备取请求数据,装载到结果对象里面之前
+
+//                // 获取要请求的网址
+//                String url = netTask.getRequesutUrl();
+//
+//                // 如果请求的数据是字符串,并且是使用缓存的
+//                if (netTask.responseDataStyle == ResponseHandler.STRINGDATA && netTask.isUseJsonCache) {
+//
+//                    // 根据这个url进行数据库的查询
+//                    List<JsonCache> list = cacheDao.selectByUrl(url);
+//
+//                    // 如果有记录,就拿到json,塞到结果的对象中
+//                    if (list != null && list.size() > 0) {
+//                        JsonCache jsonCache = list.get(0);
+//                        resultInfo.result = jsonCache.getJson();
+//                        resultInfo.loadDataType = ResultInfo.LOCAL;
+//
+//                        if (isLog)
+//                            L.s(TAG, "拦截一次请求,数据库中存在:" + url);
+//
+//                        // 返回true,表示拦截这次的请求
+//                        return true;
+//                    }
+//                }
+
+//                return false;
+//            }
+//        });
     }
 
 }

@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import xiaojinzi.base.android.log.L;
+import xiaojinzi.base.java.collection.ArrayUtil;
+import xiaojinzi.base.java.common.StringUtil;
 import xiaojinzi.base.java.reflection.ReflectionUtil;
-import xiaojinzi.base.java.util.ArrayUtil;
-import xiaojinzi.base.java.util.StringUtil;
 import xiaojinzi.dbOrm.android.annotation.Column;
 import xiaojinzi.dbOrm.android.annotation.Table;
 import xiaojinzi.dbOrm.android.core.exception.AutoPKException;

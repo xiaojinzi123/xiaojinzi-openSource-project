@@ -14,11 +14,12 @@ import com.example.cxj.zhihu.R;
 import com.example.cxj.zhihu.config.Constant;
 
 import xiaojinzi.activity.BaseActivity;
-import xiaojinzi.animation.AlphaAnimationUtil;
-import xiaojinzi.animation.TranslateAnimationUtil;
-import xiaojinzi.animation.adapter.AnimationListenerAdapter;
-import xiaojinzi.annotation.Injection;
+
 import xiaojinzi.base.android.store.SPUtil;
+import xiaojinzi.viewAnimation.AlphaAnimationUtil;
+import xiaojinzi.viewAnimation.TranslateAnimationUtil;
+import xiaojinzi.viewAnimation.adapter.AnimationListenerAdapter;
+import xiaojinzi.viewAnnotation.Injection;
 
 
 /**

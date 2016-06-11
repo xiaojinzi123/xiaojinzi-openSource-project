@@ -1,8 +1,7 @@
 package xiaojinzi.net.filter;
 
 
-import xiaojinzi.net.NetTask;
-import xiaojinzi.net.ResultInfo;
+import xiaojinzi.base.java.net.ResultInfo;
 
 /**
  * 网络过滤器
@@ -19,7 +18,7 @@ public interface NetFilter {
      * @param netTask
      * @return
      */
-    boolean netTaskPrepare(NetTask<?> netTask);
+    boolean netTaskPrepare(PdHttpRequest<?> netTask);
 
     /**
      * 网络开始的时候的过滤,如果返回对象不是null,<br>
@@ -28,7 +27,7 @@ public interface NetFilter {
      *
      * @param netTask
      */
-    boolean netTaskBegin(NetTask<?> netTask, ResultInfo<?> resultInfo);
+    boolean netTaskBegin(PdHttpRequest<?> netTask, ResultInfo<?> resultInfo);
 
     /**
      * 结果信息返回的时候的过滤

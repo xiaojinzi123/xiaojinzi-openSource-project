@@ -1,0 +1,38 @@
+POST /Demo/demo/demo HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Origin: http://localhost:8080
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.97 Safari/537.36
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryuw6PpLVEjOL1wGBw
+Referer: http://localhost:8080/Demo/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.8
+Cookie: JSESSIONID=D0A3A3866C9284DE6D0623FEB8BFDE43
+Content-Length: 759524
+
+------WebKitFormBoundaryuw6PpLVEjOL1wGBw
+Content-Disposition: form-data; name="name"
+
+cxj
+------WebKitFormBoundaryuw6PpLVEjOL1wGBw
+Content-Disposition: form-data; name="pass"
+
+123
+------WebKitFormBoundaryuw6PpLVEjOL1wGBw
+Content-Disposition: form-data; name="file"; filename="PasswordBreak4@81_403226.exe"
+Content-Type: application/x-msdownload
+
+xxxxx文件的数据xxxxxxx..............
+------WebKitFormBoundaryuw6PpLVEjOL1wGBw--
+
+GET /api/4/theme/12 HTTP/1.1
+Accept: Accept text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Charset: GB2312,GBK,utf-8;q=0.7,*;q=0.7
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3
+Accept-Language: zh-cn,zh;q=0.5
+Connection: keep-alive
+Host: news-at.zhihu.com
+Accept-Encoding: gzip

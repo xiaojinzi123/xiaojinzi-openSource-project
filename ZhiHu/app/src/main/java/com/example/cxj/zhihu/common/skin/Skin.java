@@ -14,7 +14,7 @@ import java.io.InputStream;
 import xiaojinzi.EBus.EBus;
 import xiaojinzi.base.android.os.T;
 import xiaojinzi.base.android.store.SPUtil;
-import xiaojinzi.base.java.util.StringUtil;
+import xiaojinzi.base.java.common.StringUtil;
 import xiaojinzi.json.android.JsonUtil;
 
 

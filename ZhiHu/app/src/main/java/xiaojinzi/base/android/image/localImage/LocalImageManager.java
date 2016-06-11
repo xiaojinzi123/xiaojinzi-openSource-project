@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import xiaojinzi.base.java.util.StringUtil;
+import xiaojinzi.base.java.common.StringUtil;
 
 /**
  * Created by cxj on 2016/5/4.

@@ -13,9 +13,11 @@ import android.view.animation.RotateAnimation;
 import java.util.ArrayList;
 import java.util.List;
 
-import xiaojinzi.animation.RotateAnimationUtil;
-import xiaojinzi.animation.TranslateAnimationUtil;
+import xiaojinzi.base.android.log.L;
+import xiaojinzi.viewAnimation.RotateAnimationUtil;
+import xiaojinzi.viewAnimation.TranslateAnimationUtil;
 import xiaojinzi.view.common.RectEntity;
+import xiaojinzi.viewAnimation.adapter.AnimationListenerAdapter;
 
 
 /**
@@ -258,7 +260,6 @@ public class SmartMenu extends ViewGroup implements View.OnClickListener {
                 }
             }
 
-
         }
     }
 
@@ -365,14 +366,28 @@ public class SmartMenu extends ViewGroup implements View.OnClickListener {
         }
     }
 
+    private boolean isMyEvent = false;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        if (isMenuOpen) {
-            closeMenu();
-            return true;
+
+        int action = e.getAction();
+
+        switch (action & MotionEvent.ACTION_MASK){
+            case MotionEvent.ACTION_DOWN: //如果是按下,判断是不是自己的事件
+                isMyEvent = false;
+                if (isMenuOpen) {
+                    isMyEvent =  true;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (isMyEvent) {
+                    closeMenu();
+                }
+                break;
         }
-        return super.onTouchEvent(e);
+        return isMyEvent;
     }
 
     //===================================下面是动画结束的回调接口   start==============================
