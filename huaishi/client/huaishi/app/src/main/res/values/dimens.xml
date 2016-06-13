@@ -1,0 +1,40 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--定义几个常用的外边距的值,从小到大-->
+    <dimen name="small_margin">12dp</dimen>
+    <dimen name="base_margin">16dp</dimen>
+
+    <!--定义几个常用的内边距-->
+    <dimen name="small_padding">12dp</dimen>
+    <dimen name="base_padding">16dp</dimen>
+
+    <!--定义几个常用的字体大小-->
+    <dimen name="small_font_size">12sp</dimen>
+    <dimen name="base_font_size">16sp</dimen>
+    <dimen name="big_font_size">22sp</dimen>
+    <dimen name="bigger_font_size">26sp</dimen>
+
+    <!--登陆界面图标的上面的外边距-->
+    <dimen name="act_login_image_topmargin">20dp</dimen>
+
+    <!--登陆界面两个输入框的左外边距和右外边距-->
+    <dimen name="act_login_edit_leftmargin">32dp</dimen>
+    <dimen name="act_login_edit_rightmargin">32dp</dimen>
+
+    <!--登陆界面登录按钮的左外边距和右外边距-->
+    <dimen name="act_login_bt_leftmargin">32dp</dimen>
+    <dimen name="act_login_bt_rightmargin">32dp</dimen>
+
+    <!--首页的fragment右上角的添加图标大小-->
+    <dimen name="frag_home_add_icon_size">26dp</dimen>
+
+    <!--主界面下面的tabhost的上下内边距-->
+    <dimen name="act_main_mtabhost_top_padding">6dp</dimen>
+    <dimen name="act_main_mtabhost_bottom_padding">6dp</dimen>
+
+
+
+</resources>

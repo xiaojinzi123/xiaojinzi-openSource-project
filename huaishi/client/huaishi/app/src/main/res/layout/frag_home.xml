@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/titlebar_bg"
+        android:padding="@dimen/small_padding"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_frag_home_add"
+            android:layout_width="@dimen/frag_home_add_icon_size"
+            android:layout_alignParentRight="true"
+            android:layout_height="@dimen/frag_home_add_icon_size"
+            android:src="@mipmap/frag_home_add"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lv_frag_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
+</LinearLayout>
