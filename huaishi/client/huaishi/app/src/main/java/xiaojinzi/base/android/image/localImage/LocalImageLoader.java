@@ -7,18 +7,14 @@ import android.support.v4.util.LruCache;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 
-
 import xiaojinzi.base.android.image.ImageUtil;
-import xiaojinzi.base.android.thread.ThreadPool;
+import xiaojinzi.base.java.util.ThreadPool;
 
 /**
- * 本地图片的加载器
+ * 本地的图片加载器
  */
 public class LocalImageLoader {
 
-    /**
-     * 线程池
-     */
     private static ThreadPool threadPool;
 
     /**
@@ -44,7 +40,6 @@ public class LocalImageLoader {
             if (imageView.getTag().toString().equals(path)) {
                 imageView.setImageBitmap(bm);
             } else {
-                //System.out.println("不同");
             }
         }
     };
@@ -71,12 +66,6 @@ public class LocalImageLoader {
         return localImageLoader;
     }
 
-    /**
-     * 加载本地图片
-     *
-     * @param imageLocalPath
-     * @param imageView
-     */
     public void loadImage(final String imageLocalPath, final ImageView imageView) {
 
         imageView.setTag(imageLocalPath);
@@ -90,16 +79,20 @@ public class LocalImageLoader {
                 @Override
                 public void run() {
                     LayoutParams lp = imageView.getLayoutParams();
+                    //获取本地的图片的压缩图
                     Bitmap bm = ImageUtil.decodeLocalImage(imageLocalPath, lp.width, lp.height);
-                    //添加到一级缓存
-                    addBitmapToLruCache(imageLocalPath, bm);
-                    ImgBeanHolder holder = new ImgBeanHolder();
-                    holder.bitmap = mLruCache.get(imageLocalPath);
-                    holder.imageView = imageView;
-                    holder.path = imageLocalPath;
-                    Message message = Message.obtain();
-                    message.obj = holder;
-                    h.sendMessage(message);
+                    if (bm != null) {
+                        //添加到一级缓存
+                        addBitmapToLruCache(imageLocalPath, bm);
+                        ImgBeanHolder holder = new ImgBeanHolder();
+                        holder.bitmap = mLruCache.get(imageLocalPath);
+                        holder.imageView = imageView;
+                        holder.path = imageLocalPath;
+                        Message message = Message.obtain();
+                        message.obj = holder;
+                        h.sendMessage(message);
+                    }
+
                 }
             });
         } else {
@@ -124,7 +117,7 @@ public class LocalImageLoader {
 
 
     /**
-     * 多个对象的持有者
+     * 几个信息的持有者,其实就是封装一下
      */
     private class ImgBeanHolder {
         Bitmap bitmap;

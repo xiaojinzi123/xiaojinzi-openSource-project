@@ -6,6 +6,7 @@
     tools:context="com.example.cxj.huaishi.modular.postCard.ui.PostCardAct">
 
     <RelativeLayout
+        android:id="@+id/rl_act_post_card_titlebar"
         android:layout_width="match_parent"
         android:background="@color/titlebar_bg"
         android:padding="@dimen/small_padding"
@@ -37,5 +38,22 @@
             android:textColor="@color/white"/>
 
     </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/et_act_post_card_content"
+        android:text="hello"
+        android:background="@null"
+        android:padding="@dimen/base_padding"
+        android:layout_below="@+id/rl_act_post_card_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/act_post_card_et_height" />
+
+    <ImageView
+        android:id="@+id/iv_act_post_card_more"
+        android:layout_below="@+id/et_act_post_card_content"
+        android:layout_width="@dimen/act_post_card_iv_more_size"
+        android:layout_height="@dimen/act_post_card_iv_more_size"
+        android:src="@mipmap/act_post_card_more"/>
 
 </RelativeLayout>

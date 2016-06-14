@@ -14,12 +14,14 @@ import com.example.cxj.huaishi.MyApp;
 import com.example.cxj.huaishi.R;
 import com.example.cxj.huaishi.common.Msg;
 import com.example.cxj.huaishi.common.entity.User;
+import com.example.cxj.huaishi.modular.main.main.ui.MainAct;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import xiaojinzi.activity.BaseActivity;
 import xiaojinzi.annotation.Injection;
+import xiaojinzi.base.android.activity.ActivityUtil;
 import xiaojinzi.base.android.os.ProgressDialogUtil;
 import xiaojinzi.base.android.os.T;
 
@@ -57,7 +59,6 @@ public class LoginAct extends BaseActivity {
 
     @Override
     public void initData() {
-
     }
 
     /**
@@ -71,7 +72,6 @@ public class LoginAct extends BaseActivity {
 
         switch (id) {
             case R.id.bt_act_login_login: // 登陆逻辑实现
-//                T.showShort(context, "去登陆啦");
                 login();
                 break;
             case R.id.tv_act_login_forget_password: //跳转到找回密码界面
@@ -93,6 +93,9 @@ public class LoginAct extends BaseActivity {
         String nameOrPhoneNumber = et_name_or_phoneNumber.getText().toString();
         String password = et_password.getText().toString();
 
+        MyApp.dialog.setMessage("正在登录");
+        MyApp.dialog.show();
+
         Call<String> call = MyApp.netWorkService.login(nameOrPhoneNumber, nameOrPhoneNumber, password);
 
         call.enqueue(new Callback<String>() {
@@ -104,18 +107,24 @@ public class LoginAct extends BaseActivity {
                     Msg m = MyApp.gson.fromJson(body, Msg.class);
                     if (Msg.OK.equals(m.getMsg())) { //登陆成功
                         T.showShort(context, "登录成功");
+                        MyApp.dialog.dismiss();
                         org.json.JSONObject jo = new org.json.JSONObject(body);
                         String userJson = jo.getString("data");
                         MyApp.u = MyApp.gson.fromJson(userJson, User.class);
-                        System.out.println(MyApp.u);
+                        if (MyApp.u.getId() != null) {
+                            ActivityUtil.startActivity(context, MainAct.class);
+                            finish();
+                        }
                     }
                 } catch (Exception e) {
+                    MyApp.dialog.dismiss();
                 }
+
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                System.out.println("挂啦");
+                MyApp.dialog.dismiss();
             }
         });
 

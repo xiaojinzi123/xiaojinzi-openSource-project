@@ -22,6 +22,36 @@ public class ScreenUtils
 	}
 
 	/**
+	 * 获得屏幕高度的分辨率
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static int getScreenWidthPixels(Context context)
+	{
+		WindowManager wm = (WindowManager) context
+				.getSystemService(Context.WINDOW_SERVICE);
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		wm.getDefaultDisplay().getMetrics(outMetrics);
+		return outMetrics.widthPixels;
+	}
+
+	/**
+	 * 获得屏幕宽度的分辨率
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static int getScreenHeightPixels(Context context)
+	{
+		WindowManager wm = (WindowManager) context
+				.getSystemService(Context.WINDOW_SERVICE);
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		wm.getDefaultDisplay().getMetrics(outMetrics);
+		return outMetrics.heightPixels;
+	}
+
+	/**
 	 * 获得屏幕高度
 	 * 
 	 * @param context

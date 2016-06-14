@@ -35,6 +35,19 @@
     <dimen name="act_main_mtabhost_top_padding">6dp</dimen>
     <dimen name="act_main_mtabhost_bottom_padding">6dp</dimen>
 
+    <!--动态展示页面的条目的用户头像的大小-->
+    <dimen name="dynamic_list_item_icon_size">32dp</dimen>
+    <!--动态展示页面的条目的赞的图标的大小-->
+    <dimen name="dynamic_list_item_zan_size">20dp</dimen>
+    <!--动态展示页面的条目的回复的图标的大小-->
+    <dimen name="dynamic_list_item_huifu_size">20dp</dimen>
+
+    <!--发表说说界面的输入框的高度-->
+    <dimen name="act_post_card_et_height">150dp</dimen>
+
+    <!--发表说说界面的添加更多的图标大小-->
+    <dimen name="act_post_card_iv_more_size">80dp</dimen>
+
 
 
 </resources>

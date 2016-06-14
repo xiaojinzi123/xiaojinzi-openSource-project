@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 
 import com.example.cxj.huaishi.common.entity.User;
 import com.example.cxj.huaishi.service.NetWorkService;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -54,6 +55,8 @@ public class MyApp extends Application {
         netWorkService = retrofit.create(NetWorkService.class);
 
         gson = new GsonBuilder().create();
+
+        Fresco.initialize(this);
 
     }
 }

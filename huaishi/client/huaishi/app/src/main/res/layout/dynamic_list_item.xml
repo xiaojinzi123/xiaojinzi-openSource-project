@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/base_padding">
+
+    <!--显示动态的条目-->
+    <RelativeLayout
+        android:id="@+id/rl_dynamic_list_item_part_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iv_dynamic_icon"
+            android:layout_width="@dimen/dynamic_list_item_icon_size"
+            android:layout_height="@dimen/dynamic_list_item_icon_size"
+            fresco:actualImageScaleType="focusCrop"
+            fresco:roundAsCircle="true"
+            fresco:roundedCornerRadius="180dp" />
+
+        <TextView
+            android:id="@+id/tv_dynamic_list_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_dynamic_icon"
+            android:text="xiaojinzi" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_dynamic_list_item_name"
+            android:layout_toRightOf="@+id/iv_dynamic_icon"
+            android:text="今天12:00" />
+
+    </RelativeLayout>
+
+    <!--显示说说内容-->
+    <TextView
+        android:id="@+id/tv_dynamic_list_item_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_dynamic_list_item_part_one" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_dynamic_list_item_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_dynamic_list_item_view_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="浏览32次" />
+
+        <ImageView
+            android:id="@+id/tv_dynamic_list_item_zan"
+            android:layout_width="@dimen/dynamic_list_item_zan_size"
+            android:layout_height="@dimen/dynamic_list_item_zan_size"
+            android:layout_marginRight="@dimen/base_margin"
+            android:layout_toLeftOf="@+id/tv_dynamic_list_item_huifu"
+            android:src="@drawable/dynamic_list_item_zan" />
+
+        <ImageView
+            android:id="@+id/tv_dynamic_list_item_huifu"
+            android:layout_width="@dimen/dynamic_list_item_huifu_size"
+            android:layout_height="@dimen/dynamic_list_item_huifu_size"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/base_margin"
+            android:src="@drawable/dynamic_list_item_huifu" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

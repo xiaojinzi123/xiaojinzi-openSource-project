@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import xiaojinzi.base.java.common.StringUtil;
+import xiaojinzi.base.java.util.StringUtil;
 
 /**
  * Created by cxj on 2016/5/4.
@@ -67,25 +67,11 @@ public class LocalImageManager {
      * @param context
      */
     public static void init(Context context) {
-        LocalImageManager.context = context;
+        if (LocalImageManager.context == null) {
+            LocalImageManager.context = context;
+        }
     }
 
-    /**
-     * query by mime_type of image
-     * 根据图片的类型进行查询
-     *
-     * @param mime_type 图片的类型
-     *                  {@link LocalImageManager#JPEG_MIME_TYPE}
-     *                  {@link LocalImageManager#PNG_MIME_TYPE
-     * @return
-     */
-    @Nullable
-    public static List<String> queryImage(String... mime_type) {
-        if (mime_type == null || mime_type.length == 0) {
-            return null;
-        }
-        return queryImage(new LocalImageInfo(), mime_type).getImageFiles();
-    }
 
     /**
      * 根据文件夹的路径,查询对应mime_type类型的图片路径的集合
@@ -96,18 +82,25 @@ public class LocalImageManager {
      */
     @Nullable
     public static List<String> queryImageByFolderPath(LocalImageInfo localImageInfo, String folderPath) {
+        //图片的类型
+        String[] mimeType = localImageInfo.getMimeType();
+        //健壮性判断
         if (folderPath == null || "".equals(folderPath)
-                || localImageInfo.mimeType == null || localImageInfo.mimeType.length == 0) {
+                || mimeType.length == 0) {
             return null;
         }
+        //声明返回值
         List<String> images;
+
+        //如果只是单纯的查询,一次性的,那么可以传入localImageInfo为空
         if (localImageInfo == null) {
             images = new ArrayList<String>();
-        } else {
+        } else { //否则从缓存中拿出来看看
             images = localImageInfo.getImagesByFolderPath(folderPath);
         }
         //如果没有,那就自己去查询
         if (images == null) {
+            //创建集合
             images = new ArrayList<String>();
             //创建文件对象爱那个
             File folder = new File(folderPath);
@@ -119,7 +112,7 @@ public class LocalImageManager {
                 for (int i = 0; i < files.length; i++) {
                     File file = files[i];
                     //如果是文件,而不是文件夹,并且文件的后缀匹配了
-                    if (file.isFile() && isFileMatchMimeType(file, localImageInfo.mimeType)) {
+                    if (file.isFile() && isFileMatchMimeType(file, mimeType)) {
                         //添加到集合中
                         images.add(file.getPath());
                     }
@@ -139,26 +132,33 @@ public class LocalImageManager {
     }
 
     /**
-     * 查询所有图片的路径和文件夹的路径
+     * 查询系统中存储的所有图片的路径和文件夹的路径
+     * 其实就是
+     * {@link LocalImageManager#queryImage(LocalImageInfo)}
+     * 和
+     * {@link LocalImageManager#queryAllFolders(LocalImageInfo)}
+     * 的合体
      *
-     * @param mime_type
+     * @param localImageInfo 本地图片的描述对象
      * @return
      */
     @Nullable
-    public static LocalImageInfo queryImageWithFolder(String... mime_type) {
-        if (mime_type == null || mime_type.length == 0) {
-            return null;
+    public static LocalImageInfo queryImageWithFolder(LocalImageInfo localImageInfo) {
+        String[] mimeType = localImageInfo.getMimeType();
+        if (mimeType.length == 0) {
+            return localImageInfo;
         }
-        return queryAllFolders(queryImage(new LocalImageInfo(), mime_type));
+        return queryAllFolders(queryImage(localImageInfo));
     }
 
     /**
-     * 查询出所有图片的文件夹的路径
+     * 查询出所有图片的文件夹的路径,根据{@link LocalImageInfo#imageFiles}集合进行整理的
+     * 结果放在{@link LocalImageInfo#imageFolders}
      *
      * @param localImageInfo 本地图片的一个描述信息
      * @return
      */
-    private static LocalImageInfo queryAllFolders(LocalImageInfo localImageInfo) {
+    public static LocalImageInfo queryAllFolders(LocalImageInfo localImageInfo) {
         //获取图片的文件夹
         List<String> imageFiles = localImageInfo.getImageFiles();
         //获取存放图片路径的文件夹集合
@@ -180,21 +180,19 @@ public class LocalImageManager {
 
     /**
      * query by mime_type of image
-     * 根据图片的类型进行查询
+     * 根据图片的类型进行查询,查询的是系统中存储的图片信息
+     * 结果放在{@link LocalImageInfo#imageFiles}
      *
      * @param localImageInfo 本地图片的一个描述信息
-     * @param mime_type      图片的类型
-     *                       {@link LocalImageManager#JPEG_MIME_TYPE}
-     *                       {@link LocalImageManager#PNG_MIME_TYPE}
      * @return
      */
-    private static LocalImageInfo queryImage(LocalImageInfo localImageInfo, String... mime_type) {
+    public static LocalImageInfo queryImage(LocalImageInfo localImageInfo) {
 
-        if (mime_type == null || mime_type.length == 0) {
-            return null;
+        String[] mimeType = localImageInfo.getMimeType();
+
+        if (mimeType.length == 0) {
+            return localImageInfo;
         }
-
-        localImageInfo.mimeType = mime_type;
 
         Uri mImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         ContentResolver mContentResolver = context
@@ -203,10 +201,10 @@ public class LocalImageManager {
         //查询的条件
         StringBuffer selection = new StringBuffer();
         //利用循环生成条件
-        for (int i = 0; i < mime_type.length; i++) {
+        for (int i = 0; i < mimeType.length; i++) {
             //图片的类型
-            String mime = mime_type[i];
-            if (i == mime_type.length - 1) { //如果是最后一个
+            String mime = mimeType[i];
+            if (i == mimeType.length - 1) { //如果是最后一个
                 selection.append(MediaStore.Images.Media.MIME_TYPE + " = ?");
             } else {
                 selection.append(MediaStore.Images.Media.MIME_TYPE + " = ? or ");
@@ -216,7 +214,7 @@ public class LocalImageManager {
         //执行查询
         Cursor mCursor = mContentResolver.query(mImageUri, null,
                 selection.toString(),
-                mime_type,
+                mimeType,
                 MediaStore.Images.Media.DATE_MODIFIED);
 
         List<String> imageFiles = localImageInfo.getImageFiles();

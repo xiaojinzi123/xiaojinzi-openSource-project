@@ -13,6 +13,8 @@ public class User {
 
     private String phoneNumber;
 
+    private String avatarAddress;
+
     public Integer getId() {
         return id;
     }
@@ -45,6 +47,14 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getAvatarAddress() {
+        return avatarAddress;
+    }
+
+    public void setAvatarAddress(String avatarAddress) {
+        this.avatarAddress = avatarAddress;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -52,6 +62,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", avatarAddress='" + avatarAddress + '\'' +
                 '}';
     }
 }

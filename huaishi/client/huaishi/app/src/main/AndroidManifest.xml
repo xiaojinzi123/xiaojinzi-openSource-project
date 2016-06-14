@@ -15,18 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".modular.login.ui.LoginAct">
-
-        </activity>
-        <activity android:name=".modular.register.ui.RegisterAct" />
-        <activity android:name=".modular.main.main.ui.MainAct">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".modular.register.ui.RegisterAct" />
+        <activity android:name=".modular.main.main.ui.MainAct">
+        </activity>
         <activity android:name=".modular.postCard.ui.PostCardAct">
         </activity>
+        <activity android:name=".modular.imageSelect.ui.SelectLocalImageAct"></activity>
     </application>
 
 </manifest>

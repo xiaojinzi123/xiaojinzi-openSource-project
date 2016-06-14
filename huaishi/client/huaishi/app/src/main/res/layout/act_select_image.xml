@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cxj.imageselect.ui.SelectLocalImageAct">
+
+    <RelativeLayout
+        android:id="@+id/rl_act_main_titlebar"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_width="match_parent"
+        android:background="#000066"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_act_main_back"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/arrow_left"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_act_main_ok"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:layout_alignParentRight="true"
+            android:textSize="22sp"
+            android:background="#006800"
+            android:textColor="#FFFFFF"
+            android:text="我选好了"/>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_below="@+id/rl_act_main_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/ll_act_main_info"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="#EE4d4d4d"
+        android:padding="5dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_act_main_image_folder_name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="image_folder"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_act_main_image_number"
+            android:layout_width="wrap_content"
+            android:text="image_number"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</RelativeLayout>

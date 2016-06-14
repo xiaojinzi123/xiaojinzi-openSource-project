@@ -49,7 +49,20 @@ public interface NetWorkService {
      * @param multipartBody
      * @return
      */
-    @POST("client/card/insertCard")
-    public Call<String> postCard(@Body MultipartBody multipartBody);
+    @POST("client/card/insertCardWithImage")
+    public Call<String> postCardWithImage(@Body MultipartBody multipartBody);
+
+    @POST("client/card/insertNormalCard")
+    public Call<String> postNormalCard(@Body MultipartBody multipartBody);
+
+    /**
+     * 获取说说列表
+     *
+     * @param beforDate
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("client/card/listCard")
+    public Call<String> listCard(@Field("date")Long beforDate);
 
 }
