@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yoursecondworld.secondworld.modular.register.ui.RegisterAct">
+
+
+    <!--标题栏部分-->
+    <RelativeLayout
+        android:id="@+id/rl_act_titlebar_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/base_titlebar_height"
+        android:background="@color/common_red">
+
+        <RelativeLayout
+            android:id="@+id/rl_act_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/iv_back_width"
+                android:layout_height="@dimen/iv_back_height"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/iv_back_left_margin"
+                android:src="@mipmap/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="注册"
+                android:textColor="@color/white"
+                android:textSize="@dimen/titlebar_text_size" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <!--输入手机和验证码的部分-->
+    <RelativeLayout
+        android:id="@+id/rl_act_register_phone_checkcode_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_act_titlebar_container"
+        android:padding="@dimen/base_padding">
+
+        <TextView
+            android:id="@+id/tv_act_register_phone_prefix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/base_margin"
+            android:text="+86"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/et_act_register_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/v_act_register_division"
+            android:layout_toRightOf="@+id/tv_act_register_phone_prefix"
+            android:background="@null"
+            android:hint="手机号"
+            android:text="hello" />
+
+        <View
+            android:id="@+id/v_act_register_division"
+            android:layout_width="2dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/base_margin"
+            android:layout_marginRight="@dimen/base_margin"
+            android:layout_toLeftOf="@+id/et_act_register_checkcode"
+            android:background="@color/black" />
+
+        <EditText
+            android:id="@+id/et_act_register_checkcode"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/bt_act_register_getcheckcode"
+            android:background="@null"
+            android:hint="验证码"
+            android:text="hello" />
+
+        <Button
+            android:id="@+id/bt_act_register_getcheckcode"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/getcheckcode_bt_bg"
+            android:text="获取验证码"
+            android:textColor="@color/white"
+            android:textSize="@dimen/small_text_size" />
+
+    </RelativeLayout>
+
+    <!--分割线-->
+    <View
+        android:id="@+id/v_act_register_division_one"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/rl_act_register_phone_checkcode_container"
+        android:layout_marginLeft="@dimen/base_margin"
+        android:layout_marginRight="@dimen/base_margin"
+        android:layout_marginTop="@dimen/division_topmargin"
+        android:background="@color/gray_three" />
+
+    <EditText
+        android:id="@+id/et_act_register_password_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/v_act_register_division_one"
+        android:layout_marginLeft="@dimen/base_margin"
+        android:layout_marginRight="@dimen/base_margin"
+        android:background="@null"
+        android:hint="输入密码"
+        android:padding="@dimen/base_padding"
+        android:text="password" />
+
+    <!--分割线-->
+    <View
+        android:id="@+id/v_act_register_division_two"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/et_act_register_password_one"
+        android:layout_marginLeft="@dimen/base_margin"
+        android:layout_marginRight="@dimen/base_margin"
+        android:layout_marginTop="@dimen/division_topmargin"
+        android:background="@color/gray_three" />
+
+    <EditText
+        android:id="@+id/et_act_register_password_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/v_act_register_division_two"
+        android:layout_marginLeft="@dimen/base_margin"
+        android:layout_marginRight="@dimen/base_margin"
+        android:background="@null"
+        android:hint="再次输入密码"
+        android:padding="@dimen/base_padding"
+        android:text="password" />
+
+    <!--分割线-->
+    <View
+        android:id="@+id/v_act_register_division_three"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/et_act_register_password_two"
+        android:layout_marginLeft="@dimen/base_margin"
+        android:layout_marginRight="@dimen/base_margin"
+        android:layout_marginTop="@dimen/division_topmargin"
+        android:background="@color/gray_three" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/v_act_register_division_three"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/register_register_bt_bg"
+        android:text="注册" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/big_margin"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册即表示接受" />
+
+        <TextView
+            android:id="@+id/tv_act_register_user_agreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户协议" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

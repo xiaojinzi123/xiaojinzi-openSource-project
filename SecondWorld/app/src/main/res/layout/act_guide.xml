@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_red"
+    tools:context=".modular.guide.ui.GuideAct">
+
+    <RelativeLayout
+        android:id="@+id/rl_act_guide_logo"
+        android:layout_width="@dimen/logo_container_size"
+        android:layout_height="@dimen/logo_container_size"
+        android:layout_above="@+id/tv_act_guide_tip"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/guide_logo_tv_bg"
+        android:padding="@dimen/base_padding">
+
+        <TextView
+            android:id="@+id/tv_act_guide_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableTop="@mipmap/logo"
+            android:gravity="center"
+            android:text="第二世界"
+            android:textColor="@color/common_red"
+            android:textSize="22sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_act_guide_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/base_margin"
+        android:text="游戏是一种生活方式"
+        android:textColor="@color/white"
+        android:textSize="22sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_act_main_foot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/base_margin"
+        android:orientation="horizontal"
+        android:padding="@dimen/small_padding">
+
+        <Button
+            android:id="@+id/bt_act_guide_register"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/guide_register_bt_bg"
+            android:text="注册"
+            android:textColor="@color/common_red" />
+
+        <Button
+            android:id="@+id/bt_act_guide_login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/base_margin"
+            android:layout_weight="1"
+            android:background="@drawable/guide_login_bt_bg"
+            android:text="登陆" />
+
+    </LinearLayout>
+
+</RelativeLayout>

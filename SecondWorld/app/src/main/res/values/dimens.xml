@@ -1,0 +1,64 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--小的文字大小-->
+    <dimen name="small_text_size">12sp</dimen>
+    <!--基本的文字大小-->
+    <dimen name="base_text_size">16sp</dimen>
+    <!--常用的文字大小-->
+    <dimen name="normal_text_size">22sp</dimen>
+
+    <!--最小的内边距-->
+    <dimen name="most_small_padding">4dp</dimen>
+
+    <!--小的内边距-->
+    <dimen name="small_padding">8dp</dimen>
+
+    <!--基本的内边距-->
+    <dimen name="base_padding">16dp</dimen>
+
+    <!--小的内边距-->
+    <dimen name="small_margin">12dp</dimen>
+
+    <!--基本的外边距-->
+    <dimen name="base_margin">16dp</dimen>
+
+    <!--大一点的外边距-->
+    <dimen name="big_margin">22dp</dimen>
+
+    <!--标题栏的高度-->
+    <dimen name="base_titlebar_height">70dp</dimen>
+
+    <!--标题栏中的图标的大小-->
+    <dimen name="titlebar_icon_size">32dp</dimen>
+
+    <!--标题栏中的文字的大小-->
+    <dimen name="titlebar_text_size">18sp</dimen>
+
+    <!--关于返回按钮的-->
+    <dimen name="iv_back_width">24dp</dimen>
+    <dimen name="iv_back_height">32dp</dimen>
+    <dimen name="iv_back_left_margin">10dp</dimen>
+
+    <!--忘记密码和注册的界面的分割线的上边距-->
+    <dimen name="division_topmargin">-12dp</dimen>
+
+    <!--以下是引导界面的用到的数据-->
+    <dimen name="logo_container_size">180dp</dimen>
+
+
+    <!--下面是登陆界面能用到的数据-->
+    <dimen name="tv_login_size">18sp</dimen>
+    <dimen name="bt_login_login_left_and_right_margin">24dp</dimen>
+    <dimen name="bt_login_login_height">44dp</dimen><!--登陆按钮的高度-->
+
+    <!--以下是设置个人资料的界面用到的数据-->
+    <dimen name="iv_edit_person_info_user_icon_size">180dp</dimen><!--头像图标的大小-->
+    <dimen name="iv_edit_person_info_user_icon_top_margin">40dp</dimen><!--头像和上面的距离-->
+    <dimen name="iv_edit_person_info_sex_icon_size">32dp</dimen><!--性别图标的大小-->
+    <dimen name="tv_edit_person_info_sex_size">22sp</dimen><!--性别文字的大小-->
+    <dimen name="tv_edit_person_info_username_size">22sp</dimen><!--昵称文字的大小-->
+
+</resources>

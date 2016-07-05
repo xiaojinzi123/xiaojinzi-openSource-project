@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yoursecondworld.secondworld.modular.userAgreement.UserAgreementAct">
+
+
+    <!--标题栏部分-->
+    <RelativeLayout
+        android:id="@+id/rl_act_titlebar_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/base_titlebar_height"
+        android:background="@color/common_red">
+
+        <RelativeLayout
+            android:id="@+id/rl_act_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/iv_back_width"
+                android:layout_height="@dimen/iv_back_height"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/iv_back_left_margin"
+                android:src="@mipmap/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="用户协议"
+                android:textColor="@color/white"
+                android:textSize="@dimen/titlebar_text_size" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_act_titlebar_container">
+
+        <TextView
+            android:id="@+id/tv_act_user_agreement_content"
+            android:layout_width="match_parent"
+            android:textSize="18sp"
+            android:layout_height="match_parent" />
+
+    </ScrollView>
+
+</RelativeLayout>

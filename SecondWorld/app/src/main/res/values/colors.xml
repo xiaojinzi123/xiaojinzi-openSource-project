@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--白色-->
+    <color name="white">#FFFFFF</color>
+    <!--黑色-->
+    <color name="black">#000000</color>
+
+    <!--整体的红色-->
+    <color name="common_red">#C12332</color>
+
+    <!--灰色由浅到深-->
+    <color name="gray_one">#f5f5f5</color>
+    <color name="gray_two">#a7a7a7</color>
+    <color name="gray_three">#696969</color>
+    <color name="gray_four">#EAEAEA</color>
+
+    <!--登陆界面的按钮的颜色-->
+    <color name="bt_login_login_bg">#a7a7a7</color>
+
+    <!--设置个人资料用到的颜色-->
+    <color name="iv_act_edit_person_info_sex_man">#696969</color><!--男性图标的颜色-->
+    <color name="iv_act_edit_person_info_sex_women">#ed9ce8</color><!--女性图标的颜色-->
+    <color name="bt_act_edit_person_info_complete">#696969</color><!--完成按钮背景颜色-->
+
+</resources>

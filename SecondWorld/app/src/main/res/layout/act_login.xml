@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_act_login_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yoursecondworld.secondworld.modular.login.ui.LoginAct">
+
+    <!--标题栏部分-->
+    <RelativeLayout
+        android:id="@+id/rl_act_titlebar_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/base_titlebar_height"
+        android:background="@color/common_red">
+
+        <RelativeLayout
+            android:id="@+id/rl_act_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/iv_back_width"
+                android:layout_height="@dimen/iv_back_height"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/iv_back_left_margin"
+                android:src="@mipmap/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="登陆第二世界"
+                android:textColor="@color/white"
+                android:textSize="@dimen/titlebar_text_size" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_act_login_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_act_titlebar_container">
+
+        <LinearLayout
+            android:id="@+id/ll_act_login_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/small_padding">
+
+            <TextView
+                android:id="@+id/tv_act_login_account_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="登陆手机"
+                android:textSize="@dimen/tv_login_size" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/base_margin"
+                android:layout_toRightOf="@+id/tv_act_login_account_tip"
+                android:layout_weight="1"
+                android:hint="+86" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_act_login_account"
+            android:orientation="horizontal"
+            android:padding="@dimen/small_padding">
+
+            <TextView
+                android:id="@+id/tv_act_login_password_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="用户密码"
+                android:textSize="@dimen/tv_login_size" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/base_margin"
+                android:layout_toRightOf="@+id/tv_act_login_account_tip"
+                android:layout_weight="1"
+                android:hint="输入密码" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <!--登陆按钮-->
+    <Button
+        android:id="@+id/bt_act_login_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_act_login_content"
+        android:layout_marginLeft="@dimen/bt_login_login_left_and_right_margin"
+        android:layout_marginRight="@dimen/bt_login_login_left_and_right_margin"
+        android:layout_marginTop="44dp"
+        android:textSize="@dimen/normal_text_size"
+        android:background="@drawable/login_login_bt_bg"
+        android:text="登录"
+        android:textColor="@color/white" />
+
+    <!--忘记密码文本框-->
+    <TextView
+        android:id="@+id/tv_act_login_forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/bt_act_login_login"
+        android:layout_margin="@dimen/bt_login_login_left_and_right_margin"
+        android:text="忘记密码?" />
+
+</RelativeLayout>
