@@ -1,43 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_red"
     tools:context="com.yoursecondworld.secondworld.modular.selectGame.ui.SelectGameAct">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/tv_act_select_game_tip_one"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tv_act_select_game_tip_one"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:gravity="center"
-            android:text="请选择您感兴趣的标签"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:text="请选择您感兴趣的标签"
+        android:textColor="@color/white"
+        android:textSize="30sp" />
 
 
-        <TextView
-            android:id="@+id/tv_act_select_game_tip_two"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_act_select_game_tip_one"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="我们将根据您的标签为您推送内容"
-            android:textColor="@color/white" />
+    <TextView
+        android:id="@+id/tv_act_select_game_tip_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_act_select_game_tip_one"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="我们将根据您的标签为您推送内容"
+        android:textColor="@color/white" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_act_select_game"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_below="@+id/tv_act_select_game_tip_two"
-            android:layout_marginTop="50dp"></android.support.v4.view.ViewPager>
+    <!--选择游戏标签的,并且可以左右滑动选择的控件-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_act_select_game"
+        android:layout_width="match_parent"
+        android:layout_height="168dp"
+        android:layout_below="@+id/tv_act_select_game_tip_two"
+        android:layout_marginTop="50dp" />
 
-    </RelativeLayout>
-</ScrollView>
+    <TextView
+        android:id="@+id/tv_act_select_game_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vp_act_select_game"
+        android:text="已选择"
+        android:textColor="@color/white" />
+
+
+    <!--用于保存已经选择的-->
+    <GridView
+        android:layout_below="@+id/tv_act_select_game_selected"
+        android:id="@+id/gv_act_select_game_selected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="3"
+        android:padding="@dimen/base_padding"
+        android:verticalSpacing="20dp" />
+
+
+</RelativeLayout>

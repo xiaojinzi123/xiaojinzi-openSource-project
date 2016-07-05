@@ -1,4 +1,4 @@
-package com.yoursecondworld.secondworld.modular.selectGame.adapter;
+package com.yoursecondworld.secondworld.modular.selectGame.fragment.fragment;
 
 import android.content.Context;
 

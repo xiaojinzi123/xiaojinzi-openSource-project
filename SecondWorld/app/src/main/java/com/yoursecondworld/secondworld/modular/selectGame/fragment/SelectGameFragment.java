@@ -1,24 +1,32 @@
 package com.yoursecondworld.secondworld.modular.selectGame.fragment;
 
-import android.view.ViewGroup;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 
 import com.yoursecondworld.secondworld.R;
-import com.yoursecondworld.secondworld.modular.selectGame.adapter.SelectGameAdapter;
+import com.yoursecondworld.secondworld.modular.selectGame.entity.SelectedLabel;
+import com.yoursecondworld.secondworld.modular.selectGame.fragment.fragment.SelectGameAdapter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import xiaojinzi.activity.fragment.BaseViewPagerFragment;
 import xiaojinzi.annotation.Injection;
+import xiaojinzi.base.android.log.L;
 
 /**
  * Created by cxj on 2016/7/5.
+ * 选择游戏标签的Fragment
  */
 public class SelectGameFragment extends BaseViewPagerFragment {
+
+    @Injection(R.id.rl_frag_select_game)
+    private RelativeLayout rl = null;
 
     /**
      * 显示多个格子的控件
@@ -49,8 +57,18 @@ public class SelectGameFragment extends BaseViewPagerFragment {
         data.add("哈哈哈哈");
         data.add("hello");
         notifyLoadDataComplete();
+    }
 
-
+    @Override
+    public void setOnlistener() {
+        super.setOnlistener();
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String name = data.get(position);
+                EventBus.getDefault().post(new SelectedLabel(name));
+            }
+        });
     }
 
     @Override
@@ -61,7 +79,6 @@ public class SelectGameFragment extends BaseViewPagerFragment {
         } else {
             adapter.notifyDataSetChanged();
         }
-
     }
 
     @Override

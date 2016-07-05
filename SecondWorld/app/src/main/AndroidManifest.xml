@@ -13,17 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".modular.guide.ui.GuideAct">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".modular.login.ui.LoginAct" />
         <activity android:name=".modular.personInfo.EditPersonInfoAct" />
         <activity android:name=".modular.register.ui.RegisterAct" />
         <activity android:name=".modular.userAgreement.UserAgreementAct"></activity>
         <activity android:name=".modular.forgetPassword.ForgetPasswordAct"></activity>
-        <activity android:name=".modular.selectGame.ui.SelectGameAct"></activity>
+        <activity android:name=".modular.selectGame.ui.SelectGameAct">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/tv_flow_label_game_name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="24dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="6dp"
         android:layout_toRightOf="@+id/iv_flow_label_item_icon"
